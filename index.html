@@ -42,7 +42,7 @@
         }
 
         /* Asegura que el cursor de mano cambie en elementos interactivos */
-        a, button, .glass-box, .gallery-item, .scroll-down-btn, .close-modal, ::-webkit-scrollbar-thumb {
+        a, button, .glass-box, .gallery-item, .scroll-down-btn, .close-modal, ::-webkit-scrollbar-thumb, .menu-toggle, .dot, .carousel-control {
             cursor: url('https://raw.githubusercontent.com/L4R5H/Among-Us-Cursors/master/Among%20Us%20(Red)/Among%20Us%20Red%20Pointer.png'), pointer !important;
         }
 
@@ -166,6 +166,19 @@
             font-weight: bold;
             color: #fff;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* BOTÓN MENÚ HAMBURGUESA (Oculto en PC) */
+        .menu-toggle {
+            display: none; 
+            font-size: 1.8rem;
+            color: #fff;
+            text-shadow: 0 0 5px var(--phoenix-gold);
+            transition: transform 0.3s ease;
+        }
+
+        .menu-toggle:hover {
+            transform: scale(1.1);
         }
 
         nav ul {
@@ -326,6 +339,7 @@
         #informacion { background: linear-gradient(to bottom, var(--phoenix-red) 0%, var(--phoenix-orange) 100%); }
         #dinamicas { background: linear-gradient(to bottom, var(--phoenix-orange) 0%, var(--phoenix-gold) 100%); }
         #fundadores { background: linear-gradient(to bottom, var(--phoenix-gold) 0%, var(--phoenix-orange) 100%); }
+        #administradores { background: linear-gradient(to bottom, var(--phoenix-orange) 0%, var(--phoenix-orange) 100%); }
         #reglas { background: linear-gradient(to bottom, var(--phoenix-orange) 0%, var(--phoenix-red) 100%); }
         #contacto { background: linear-gradient(to bottom, var(--phoenix-red) 0%, var(--phoenix-darkred) 100%); }
 
@@ -379,7 +393,7 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
         }
 
-        /* --- ESTILOS DE DESLIZAMIENTO AUTOMÁTICO (FUNDADORES) --- */
+        /* --- ESTILOS DE DESLIZAMIENTO AUTOMÁTICO (SOLO FUNDADORES) --- */
         .carousel-container {
             width: 100%;
             max-width: 1000px;
@@ -400,16 +414,15 @@
             animation-play-state: paused;
         }
 
-        /* --- ESTILOS DE LA TARJETA DE FUNDADOR INDIVIDUAL VERTICAL --- */
+        /* --- ESTILOS DE LA TARJETA VERTICAL DE FUNDADORES --- */
         .founder-card {
-            flex: 0 0 calc(100% / 8 - (14rem / 8));
+            flex: 0 0 calc(100% / 8 - (14rem / 8)); 
             height: 500px; 
             padding: 1rem;
             text-align: left; 
             position: relative;
             overflow: hidden;
             
-            background-image: url("tu-imagen-de-fondo.jpg");
             background-size: cover; 
             background-position: center; 
             
@@ -422,6 +435,107 @@
             border-radius: 15px; 
         }
 
+        /* --- ¡NUEVO! ESTILOS DEL CARRUSEL DE ADMINISTRADORES CON BOTONES --- */
+        .admin-carousel-wrapper {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 3;
+        }
+
+        /* Botones de navegación */
+        .carousel-control {
+            position: absolute;
+            top: calc(50% - 20px);
+            transform: translateY(-50%);
+            background: rgba(18, 2, 0, 0.8);
+            color: var(--phoenix-gold);
+            border: 2px solid var(--phoenix-gold);
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            font-size: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-control:hover {
+            background: var(--phoenix-gold);
+            color: var(--bg-dark);
+            box-shadow: 0 0 15px var(--phoenix-orange);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .prev-btn { left: -25px; }
+        .next-btn { right: -25px; }
+
+        .admin-carousel-track {
+            display: flex;
+            gap: 2rem;
+            overflow-x: auto; 
+            scroll-snap-type: x mandatory; 
+            scroll-behavior: smooth;
+            padding: 1rem 0.5rem;
+            scrollbar-width: none; 
+            -ms-overflow-style: none; 
+        }
+
+        .admin-carousel-track::-webkit-scrollbar {
+            display: none; 
+        }
+
+        .admin-card {
+            flex: 0 0 calc(33.333% - 1.33rem); /* Muestra 3 tarjetas en PC */
+            scroll-snap-align: center; 
+            
+            height: 500px; 
+            padding: 1rem;
+            text-align: left; 
+            position: relative;
+            background-size: cover; 
+            background-position: center; 
+            background-color: rgba(18, 2, 0, 0.6); 
+            backdrop-filter: blur(8px); 
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); 
+            border: 2px solid var(--phoenix-gold); 
+            border-radius: 15px; 
+        }
+
+        /* Contenedor de los puntitos de navegación */
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-top: 1.5rem;
+        }
+
+        .dot {
+            width: 14px;
+            height: 14px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot:hover {
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+
+        .dot.active {
+            background-color: var(--phoenix-orange);
+            transform: scale(1.3);
+            box-shadow: 0 0 10px var(--phoenix-orange);
+        }
+
+        /* --- ESTILOS COMPARTIDOS DENTRO DE LAS TARJETAS --- */
         .card-header {
             font-size: 1.2rem;
             font-weight: bold;
@@ -449,12 +563,7 @@
             box-shadow: 0 0 10px rgba(255, 152, 0, 0.6);
             overflow: hidden;
             object-fit: cover;
-        }
-
-        .among-us-graphic.large {
-            width: 100px;
-            height: 100px;
-            object-fit: contain;
+            background-color: var(--bg-dark); 
         }
 
         .member-info {
@@ -486,15 +595,6 @@
 
         .member-info p strong {
             color: var(--phoenix-gold);
-        }
-
-        .among-us-graphic.small {
-            width: 70px;
-            height: 70px;
-            object-fit: contain;
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
         }
 
         /* --- ESTILOS PARA DINÁMICAS --- */
@@ -660,7 +760,7 @@
             gap: 10px; 
         }
 
-        /* --- EFECTO LATIDO (SOLO EN BOTONES DE CONTACTO) --- */
+        /* --- EFECTO LATIDO --- */
         @keyframes pulse-fire {
             0% { transform: scale(1); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4); }
             50% { transform: scale(1.05); box-shadow: 0 5px 25px rgba(255, 152, 0, 0.6), 0 0 15px rgba(211, 47, 47, 0.5); }
@@ -680,7 +780,7 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
         }
 
-        /* --- ANIMACIÓN CARRUSEL (¡CORREGIDA MATEMÁTICA PARA 8 TARJETAS!) --- */
+        /* --- ANIMACIÓN CARRUSEL FUNDADORES (INTACTO) --- */
         @keyframes auto-slide-phoenix {
             0%, 10.5%   { transform: translateX(0); }
             12.5%, 23%  { transform: translateX(calc(-100% / 8 - (2rem / 8))); }
@@ -693,13 +793,50 @@
             100%        { transform: translateX(0); }
         }
 
-        /* --- RESPONSIVE --- */
+        /* --- RESPONSIVE (MÓVIL) - MENÚ HAMBURGUESA --- */
+        @media (max-width: 900px) {
+            .admin-card {
+                flex: 0 0 calc(50% - 1rem); /* Muestra 2 tarjetas en Tablets */
+            }
+        }
+
         @media (max-width: 768px) {
-            nav { flex-direction: column; gap: 1rem; height: auto; padding: 1rem; }
-            nav ul { flex-wrap: wrap; justify-content: center; gap: 0.8rem; }
-            nav ul li a { font-size: 0.75rem; }
+            nav { 
+                flex-direction: row; 
+                justify-content: space-between; 
+                height: 70px; 
+                padding: 1rem 2rem; 
+            }
             
-            /* Ajuste del Hero en celulares */
+            .menu-toggle { display: block; }
+
+            nav ul { 
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: linear-gradient(to bottom, rgba(211,47,47,0.98) 0%, rgba(18,2,0,0.98) 100%);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding: 2rem 0;
+                gap: 2rem;
+                transform: translateY(-150%);
+                opacity: 0;
+                transition: all 0.4s ease-in-out;
+                z-index: -1; 
+                pointer-events: none;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.6);
+            }
+
+            nav ul.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            nav ul li a { font-size: 1.2rem; }
+            
             .hero-layout { flex-direction: column; text-align: center; margin-bottom: 6rem; padding-top: 6rem;}
             .hero-text { text-align: center; }
             .hero-title { font-size: 3rem; }
@@ -707,16 +844,19 @@
             
             .wave-svg { height: 120px; }
             .section-title { font-size: 2.2rem; }
-            .content-section { padding-top: 8rem; scroll-margin-top: 150px; }
+            .content-section { padding-top: 8rem; scroll-margin-top: 70px; }
 
+            /* Ajustes tarjetas responsive */
             .founder-card { flex: 0 0 calc(100% / 8 - (14rem / 8)); padding: 0.8rem; }
+            .admin-card { flex: 0 0 100%; } /* Muestra 1 tarjeta a la vez en móviles */
             .member-photo-circle { width: 90px; height: 90px; }
-            .among-us-graphic.large { width: 70px; height: 70px; }
             .role-title { font-size: 0.8rem; }
             .member-info p { font-size: 0.8rem; }
-            .among-us-graphic.small { width: 50px; height: 50px; }
-            
             .close-modal { top: 10px; right: 20px; font-size: 35px; }
+
+            /* Ajuste de botones en movil para que no se salgan de la pantalla */
+            .prev-btn { left: -5px; }
+            .next-btn { right: -5px; }
         }
     </style>
 </head>
@@ -730,11 +870,17 @@
 
     <nav>
         <div class="logo">Order of the Phoenix</div>
-        <ul>
+        
+        <div class="menu-toggle" id="mobile-menu">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+
+        <ul id="nav-links">
             <li><a href="#inicio">Inicio</a></li>
             <li><a href="#informacion">Info</a></li>
             <li><a href="#dinamicas">Dinámicas</a></li>
             <li><a href="#fundadores">Fundadores</a></li>
+            <li><a href="#administradores">Staff</a></li>
             <li><a href="#reglas">Reglas</a></li>
             <li><a href="#contacto">Contacto</a></li>
         </ul>
@@ -894,6 +1040,153 @@
         </div>
     </section>
 
+    <section id="administradores" class="content-section">
+        <h2 class="section-title fade-in">Administradores y Host</h2>
+        <p class="section-text fade-in" style="background: transparent; border: none; box-shadow: none; padding: 0; margin-bottom: 1rem;">Son los pilares de la nave. Quienes mantienen el orden, velan por nuestra comunidad y celebran las dinámicas que nos mantienen unidos semana a semana.</p>
+        
+        <div class="admin-carousel-wrapper fade-in">
+            
+            <button class="carousel-control prev-btn"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="carousel-control next-btn"><i class="fa-solid fa-chevron-right"></i></button>
+
+            <div class="admin-carousel-track" id="adminTrack">
+                
+                <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/tMRdWJY3/Screenshot-2025-06-30-22-33-41-912-com-whatsapp.jpg');">
+                    <div class="card-header">Order of the Phoenix</div>
+                    <div class="photo-and-graphic">
+                        <img class="member-photo-circle" src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Logo Clan">
+                    </div>
+                    <div class="member-info">
+                        <div class="role-title">Administrador</div>
+                        <p><strong>Nombre:</strong> Lizzeth</p>
+                        <p><strong>Nick:</strong> Lizz</p>
+                        <p><strong>País:</strong> Honduras</p>
+                    </div>
+                </div>
+
+                <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/tMRdWJY3/Screenshot-2025-06-30-22-33-41-912-com-whatsapp.jpg');">
+                    <div class="card-header">Order of the Phoenix</div>
+                    <div class="photo-and-graphic">
+                        <img class="member-photo-circle" src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Logo Clan">
+                    </div>
+                    <div class="member-info">
+                        <div class="role-title">Administrador</div>
+                        <p><strong>Nombre:</strong> Lizzeth</p>
+                        <p><strong>Nick:</strong> Lizz</p>
+                        <p><strong>País:</strong> Honduras</p>
+                    </div>
+                </div>
+
+                <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/tMRdWJY3/Screenshot-2025-06-30-22-33-41-912-com-whatsapp.jpg');">
+                    <div class="card-header">Order of the Phoenix</div>
+                    <div class="photo-and-graphic">
+                        <img class="member-photo-circle" src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Logo Clan">
+                    </div>
+                    <div class="member-info">
+                        <div class="role-title">Administrador</div>
+                        <p><strong>Nombre:</strong> Lizzeth</p>
+                        <p><strong>Nick:</strong> Lizz</p>
+                        <p><strong>País:</strong> Honduras</p>
+                    </div>
+                </div>
+
+                <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/tMRdWJY3/Screenshot-2025-06-30-22-33-41-912-com-whatsapp.jpg');">
+                    <div class="card-header">Order of the Phoenix</div>
+                    <div class="photo-and-graphic">
+                        <img class="member-photo-circle" src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Logo Clan">
+                    </div>
+                    <div class="member-info">
+                        <div class="role-title">Administrador</div>
+                        <p><strong>Nombre:</strong> Lizzeth</p>
+                        <p><strong>Nick:</strong> Lizz</p>
+                        <p><strong>País:</strong> Honduras</p>
+                    </div>
+                </div>
+
+                <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/tMRdWJY3/Screenshot-2025-06-30-22-33-41-912-com-whatsapp.jpg');">
+                    <div class="card-header">Order of the Phoenix</div>
+                    <div class="photo-and-graphic">
+                        <img class="member-photo-circle" src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Logo Clan">
+                    </div>
+                    <div class="member-info">
+                        <div class="role-title">Administrador</div>
+                        <p><strong>Nombre:</strong> Lizzeth</p>
+                        <p><strong>Nick:</strong> Lizz</p>
+                        <p><strong>País:</strong> Honduras</p>
+                    </div>
+                </div>
+
+                <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/tMRdWJY3/Screenshot-2025-06-30-22-33-41-912-com-whatsapp.jpg');">
+                    <div class="card-header">Order of the Phoenix</div>
+                    <div class="photo-and-graphic">
+                        <img class="member-photo-circle" src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Logo Clan">
+                    </div>
+                    <div class="member-info">
+                        <div class="role-title">Administrador</div>
+                        <p><strong>Nombre:</strong> Lizzeth</p>
+                        <p><strong>Nick:</strong> Lizz</p>
+                        <p><strong>País:</strong> Honduras</p>
+                    </div>
+                </div>
+
+                <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/tMRdWJY3/Screenshot-2025-06-30-22-33-41-912-com-whatsapp.jpg');">
+                    <div class="card-header">Order of the Phoenix</div>
+                    <div class="photo-and-graphic">
+                        <img class="member-photo-circle" src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Logo Clan">
+                    </div>
+                    <div class="member-info">
+                        <div class="role-title">Host</div>
+                        <p><strong>Nombre:</strong> Lizzeth</p>
+                        <p><strong>Nick:</strong> Lizz</p>
+                        <p><strong>País:</strong> Honduras</p>
+                    </div>
+                </div>
+
+                <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/tMRdWJY3/Screenshot-2025-06-30-22-33-41-912-com-whatsapp.jpg');">
+                    <div class="card-header">Order of the Phoenix</div>
+                    <div class="photo-and-graphic">
+                        <img class="member-photo-circle" src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Logo Clan">
+                    </div>
+                    <div class="member-info">
+                        <div class="role-title">Host</div>
+                        <p><strong>Nombre:</strong> Lizzeth</p>
+                        <p><strong>Nick:</strong> Lizz</p>
+                        <p><strong>País:</strong> Honduras</p>
+                    </div>
+                </div>
+
+                <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/tMRdWJY3/Screenshot-2025-06-30-22-33-41-912-com-whatsapp.jpg');">
+                    <div class="card-header">Order of the Phoenix</div>
+                    <div class="photo-and-graphic">
+                        <img class="member-photo-circle" src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Logo Clan">
+                    </div>
+                    <div class="member-info">
+                        <div class="role-title">Host</div>
+                        <p><strong>Nombre:</strong> Lizzeth</p>
+                        <p><strong>Nick:</strong> Lizz</p>
+                        <p><strong>País:</strong> Honduras</p>
+                    </div>
+                </div>
+
+                <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/tMRdWJY3/Screenshot-2025-06-30-22-33-41-912-com-whatsapp.jpg');">
+                    <div class="card-header">Order of the Phoenix</div>
+                    <div class="photo-and-graphic">
+                        <img class="member-photo-circle" src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Logo Clan">
+                    </div>
+                    <div class="member-info">
+                        <div class="role-title">Host</div>
+                        <p><strong>Nombre:</strong> Lizzeth</p>
+                        <p><strong>Nick:</strong> Lizz</p>
+                        <p><strong>País:</strong> Honduras</p>
+                    </div>
+                </div>
+            </div> 
+            
+            <div class="carousel-dots" id="adminDots"></div>
+
+        </div>
+    </section>
+
     <section id="reglas" class="content-section">
         <h2 class="section-title fade-in">Reglas del Clan</h2>
         <p class="section-text fade-in" style="background: transparent; border: none; box-shadow: none; padding: 0; margin-bottom: 2rem;">Para mantener el orden en la nave, todos los tripulantes deben conocer y respetar nuestro código de convivencia.</p>
@@ -922,13 +1215,129 @@
             <div class="modal-caption" id="textoEnModal"></div>
         </div>
     </div>
+    
     <footer style="padding: 20px; text-align: center; background: var(--bg-dark); color: rgba(255,255,255,0.5); font-size: 0.8rem; border-top: 1px solid rgba(255,87,34,0.2);">
-    <p>&copy; 2025 Order of the Phoenix. Todos los derechos reservados.</p>
-    <p style="margin-top: 5px; font-style: italic;">Surgidos de las cenizas.</p>
-</footer>
+        <p>&copy; 2025 Order of the Phoenix. Todos los derechos reservados.</p>
+        <p style="margin-top: 5px; font-style: italic;">Surgidos de las cenizas.</p>
+    </footer>
 
     <script>
-        // Lógica del Modal
+        // --- LÓGICA DEL MENÚ MÓVIL ---
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.getElementById('nav-links');
+        const links = document.querySelectorAll('#nav-links li a');
+
+        mobileMenu.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            if (navLinks.classList.contains('active')) {
+                mobileMenu.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+            } else {
+                mobileMenu.innerHTML = '<i class="fa-solid fa-bars"></i>';
+            }
+        });
+
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                mobileMenu.innerHTML = '<i class="fa-solid fa-bars"></i>';
+            });
+        });
+
+        // --- LÓGICA DEL CARRUSEL DE ADMINISTRADORES CON PUNTOS Y BOTONES ---
+        const adminTrack = document.getElementById('adminTrack');
+        const adminCards = document.querySelectorAll('.admin-card');
+        const dotsContainer = document.getElementById('adminDots');
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+        let autoPlayInterval;
+
+        // Crear los puntos
+        adminCards.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (index === 0) dot.classList.add('active');
+            
+            dot.addEventListener('click', () => {
+                scrollToIndex(index);
+                resetAutoPlay();
+            });
+            dotsContainer.appendChild(dot);
+        });
+
+        const dots = document.querySelectorAll('.dot');
+
+        function getCardWidth() {
+            return adminCards[0].offsetWidth + (parseFloat(getComputedStyle(adminTrack).gap) || 0);
+        }
+
+        function scrollToIndex(index) {
+            adminTrack.scrollTo({
+                left: index * getCardWidth(),
+                behavior: 'smooth'
+            });
+        }
+
+        function scrollNext() {
+            const maxScroll = adminTrack.scrollWidth - adminTrack.clientWidth;
+            if (adminTrack.scrollLeft >= maxScroll - 10) {
+                adminTrack.scrollTo({ left: 0, behavior: 'smooth' }); // Vuelve al inicio
+            } else {
+                adminTrack.scrollBy({ left: getCardWidth(), behavior: 'smooth' });
+            }
+        }
+
+        function scrollPrev() {
+            if (adminTrack.scrollLeft <= 10) {
+                const maxScroll = adminTrack.scrollWidth - adminTrack.clientWidth;
+                adminTrack.scrollTo({ left: maxScroll, behavior: 'smooth' }); // Va al final
+            } else {
+                adminTrack.scrollBy({ left: -getCardWidth(), behavior: 'smooth' });
+            }
+        }
+
+        // Botones manuales
+        nextBtn.addEventListener('click', () => {
+            scrollNext();
+            resetAutoPlay();
+        });
+
+        prevBtn.addEventListener('click', () => {
+            scrollPrev();
+            resetAutoPlay();
+        });
+
+        // Sincronizar puntos al hacer scroll manual o automático
+        adminTrack.addEventListener('scroll', () => {
+            const scrollPosition = adminTrack.scrollLeft;
+            const totalCardWidth = getCardWidth();
+            let currentIndex = Math.round(scrollPosition / totalCardWidth);
+            
+            dots.forEach(dot => dot.classList.remove('active'));
+            if(dots[currentIndex]) {
+                dots[currentIndex].classList.add('active');
+            }
+        });
+
+        // Giro Automático
+        function startAutoPlay() {
+            autoPlayInterval = setInterval(scrollNext, 3500); // Gira cada 3.5 segundos
+        }
+
+        function resetAutoPlay() {
+            clearInterval(autoPlayInterval);
+            startAutoPlay();
+        }
+
+        // Pausar si el ratón está encima del carrusel (Para que puedan leer)
+        const adminWrapper = document.querySelector('.admin-carousel-wrapper');
+        adminWrapper.addEventListener('mouseenter', () => clearInterval(autoPlayInterval));
+        adminWrapper.addEventListener('mouseleave', startAutoPlay);
+
+        // Iniciar giro
+        startAutoPlay();
+
+
+        // Lógica del Modal (Galería)
         const modal = document.getElementById("miModalGaleria");
         const imagenModal = document.getElementById("imagenEnModal");
         const textoModal = document.getElementById("textoEnModal");
@@ -962,13 +1371,12 @@
             sparksContainer.appendChild(spark);
         }
 
-        // --- 1. GENERADOR DE HUMO/NIEBLA ---
+        // --- GENERADOR DE HUMO/NIEBLA ---
         const smokeContainer = document.getElementById('smoke');
         for (let i = 0; i < 15; i++) { 
             let smoke = document.createElement('div');
             smoke.classList.add('smoke-particle');
             
-            // Tamaños aleatorios grandes
             let size = Math.random() * 200 + 150 + 'px';
             smoke.style.width = size;
             smoke.style.height = size;
@@ -1004,7 +1412,7 @@
         });
 
         // ----------------------------------------------------
-        // 3. EFECTOS DE SONIDO (JS)
+        // EFECTOS DE SONIDO (JS)
         // ----------------------------------------------------
         const hoverSound = document.getElementById('hoverSound');
         const clickSound = document.getElementById('clickSound');
@@ -1012,13 +1420,20 @@
         hoverSound.volume = 0.3;
         clickSound.volume = 0.3;
 
-        const interactables = document.querySelectorAll('.glass-box, .btn, .scroll-down-btn, nav ul li a, .close-modal, ::selection');
+        const interactables = document.querySelectorAll('.glass-box, .btn, .scroll-down-btn, nav ul li a, .close-modal, ::selection, .dot, .carousel-control');
 
         interactables.forEach(item => {
             item.addEventListener('mouseover', () => {
                 hoverSound.currentTime = 0; 
                 hoverSound.play().catch(e => {  });
             });
+            // Añadir sonido de clic a los botones del carrusel
+            if(item.classList.contains('carousel-control') || item.classList.contains('dot')){
+                item.addEventListener('click', () => {
+                    clickSound.currentTime = 0;
+                    clickSound.play();
+                });
+            }
         });
 
         const contactButtons = document.querySelectorAll('.contact-btn .btn');
