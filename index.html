@@ -244,7 +244,7 @@
             align-items: center;
         }
 
-        /* Estilo y animación de la imagen a la derecha */
+        /* Estilo y animación de la imagen a la direita */
         .hero-image img {
             max-width: 100%;
             max-height: 450px;
@@ -253,7 +253,7 @@
             animation: floatHeroImage 4s ease-in-out infinite; 
         }
 
-        /* Animación para que la imagen flote */
+        /* Animación para que a imagem flutue */
         @keyframes floatHeroImage {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-15px); }
@@ -323,7 +323,7 @@
             transform: translateX(-50%) scale(1.1);
         }
 
-        /* --- ESTILOS DE SECCIONES INFERIORES --- */
+        /* --- ESTILOS DE SEÇÕES INFERIORES --- */
         .content-section {
             padding: 6rem 2rem 6rem;
             display: flex;
@@ -335,7 +335,7 @@
             z-index: 2;
         }
 
-        /* GRADIENTES CONTINUOS DE ROJOS Y NARANJAS */
+        /* GRADIENTES CONTÍNUOS DE VERMELHOS E LARANJAS */
         #informacion { background: linear-gradient(to bottom, var(--phoenix-red) 0%, var(--phoenix-orange) 100%); }
         #dinamicas { background: linear-gradient(to bottom, var(--phoenix-orange) 0%, var(--phoenix-gold) 100%); }
         #fundadores { background: linear-gradient(to bottom, var(--phoenix-gold) 0%, var(--phoenix-orange) 100%); }
@@ -367,7 +367,7 @@
             z-index: 3;
         }
 
-        /* --- DISEÑO GLASSMORPHISM (Cartas y Contenedores) --- */
+        /* --- DISEÑO GLASSMORPHISM (Cartões e Contêineres) --- */
         .glass-box {
             background: rgba(255, 255, 255, 0.1); 
             backdrop-filter: blur(10px); 
@@ -393,7 +393,7 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
         }
 
-        /* --- ESTILOS DE DESLIZAMIENTO AUTOMÁTICO (SOLO FUNDADORES) --- */
+        /* --- ESTILOS DE DESLIZAMENTO AUTOMÁTICO (SÓ FUNDADORES) --- */
         .carousel-container {
             width: 100%;
             max-width: 1000px;
@@ -414,9 +414,8 @@
             animation-play-state: paused;
         }
 
-        /* --- ESTILOS DE LA TARJETA VERTICAL DE FUNDADORES --- */
-        .founder-card {
-            flex: 0 0 calc(100% / 8 - (14rem / 8)); 
+        /* --- ESTILOS DE LAS TARJETAS (Fundadores y Admins) --- */
+        .founder-card, .admin-card {
             height: 500px; 
             padding: 1rem;
             text-align: left; 
@@ -433,9 +432,40 @@
             
             border: 2px solid var(--phoenix-gold); 
             border-radius: 15px; 
+            cursor: pointer; /* Indica que son clickeables */
         }
 
-        /* --- ¡NUEVO! ESTILOS DEL CARRUSEL DE ADMINISTRADORES CON BOTONES --- */
+        .founder-card {
+            flex: 0 0 calc(100% / 8 - (14rem / 8)); 
+        }
+
+        .admin-card {
+            flex: 0 0 calc(33.333% - 1.33rem); /* Mostra 3 cartões no PC */
+            scroll-snap-align: center; 
+        }
+
+        /* --- EFECTO HOVER "VER IMAGEN" PARA TARJETAS --- */
+        .founder-card::after, .admin-card::after {
+            content: "🔍 Ver imagen";
+            position: absolute;
+            bottom: -50px;
+            background: rgba(0,0,0,0.85);
+            color: var(--phoenix-gold);
+            width: 100%;
+            left: 0;
+            padding: 12px 0;
+            font-size: 1rem;
+            font-weight: bold;
+            text-align: center;
+            transition: bottom 0.3s ease;
+            z-index: 10;
+        }
+
+        .founder-card:hover::after, .admin-card:hover::after {
+            bottom: 0;
+        }
+
+        /* --- ESTILOS DO CARROSSEL DE ADMINISTRADORES COM BOTÕES --- */
         .admin-carousel-wrapper {
             width: 100%;
             max-width: 1000px;
@@ -444,7 +474,7 @@
             z-index: 3;
         }
 
-        /* Botones de navegación */
+        /* Botões de navegação */
         .carousel-control {
             position: absolute;
             top: calc(50% - 20px);
@@ -489,25 +519,7 @@
             display: none; 
         }
 
-        .admin-card {
-            flex: 0 0 calc(33.333% - 1.33rem); /* Muestra 3 tarjetas en PC */
-            scroll-snap-align: center; 
-            
-            height: 500px; 
-            padding: 1rem;
-            text-align: left; 
-            position: relative;
-            background-size: cover; 
-            background-position: center; 
-            background-color: rgba(18, 2, 0, 0.6); 
-            backdrop-filter: blur(8px); 
-            -webkit-backdrop-filter: blur(8px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); 
-            border: 2px solid var(--phoenix-gold); 
-            border-radius: 15px; 
-        }
-
-        /* Contenedor de los puntitos de navegación */
+        /* Contêiner dos pontinhos de navegação */
         .carousel-dots {
             display: flex;
             justify-content: center;
@@ -535,7 +547,7 @@
             box-shadow: 0 0 10px var(--phoenix-orange);
         }
 
-        /* --- ESTILOS COMPARTIDOS DENTRO DE LAS TARJETAS --- */
+        /* --- ESTILOS COMPARTILHADOS DENTRO DOS CARTÕES --- */
         .card-header {
             font-size: 1.2rem;
             font-weight: bold;
@@ -572,6 +584,8 @@
             border-radius: 10px;
             margin-bottom: 1rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 2; /* Asegura que el texto quede por encima del fondo */
         }
 
         .role-title {
@@ -597,7 +611,7 @@
             color: var(--phoenix-gold);
         }
 
-        /* --- ESTILOS PARA DINÁMICAS --- */
+        /* --- ESTILOS PARA DINÂMICAS --- */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -645,7 +659,7 @@
             bottom: 0;
         }
 
-        /* --- ESTILO PARA EL MODAL (VISTA DETALLADA DE IMAGEN) --- */
+        /* --- ESTILO PARA O MODAL (VISTA DETALHADA DA IMAGEM) --- */
         .modal {
             display: none; 
             position: fixed;
@@ -711,7 +725,7 @@
             color: var(--phoenix-orange);
         }
 
-        /* Estilo para la imagen de reglas */
+        /* Estilo para a imagem de reglas */
         .rules-image-box {
             width: 100%;
             max-width: 800px;
@@ -739,7 +753,7 @@
             z-index: 3;
         }
         
-        /* --- BOTÓN CONTACTO --- */
+        /* --- BOTÃO CONTATO --- */
         .btn {
             background: var(--bg-dark);
             color: var(--phoenix-gold);
@@ -760,7 +774,7 @@
             gap: 10px; 
         }
 
-        /* --- EFECTO LATIDO --- */
+        /* --- EFEITO PULSAÇÃO --- */
         @keyframes pulse-fire {
             0% { transform: scale(1); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4); }
             50% { transform: scale(1.05); box-shadow: 0 5px 25px rgba(255, 152, 0, 0.6), 0 0 15px rgba(211, 47, 47, 0.5); }
@@ -780,7 +794,7 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
         }
 
-        /* --- ANIMACIÓN CARRUSEL FUNDADORES (INTACTO) --- */
+        /* --- ANIMAÇÃO CARROSSEL FUNDADORES --- */
         @keyframes auto-slide-phoenix {
             0%, 10.5%   { transform: translateX(0); }
             12.5%, 23%  { transform: translateX(calc(-100% / 8 - (2rem / 8))); }
@@ -793,10 +807,10 @@
             100%        { transform: translateX(0); }
         }
 
-        /* --- RESPONSIVE (MÓVIL) - MENÚ HAMBURGUESA --- */
+        /* --- RESPONSIVE (MÓVEL) --- */
         @media (max-width: 900px) {
             .admin-card {
-                flex: 0 0 calc(50% - 1rem); /* Muestra 2 tarjetas en Tablets */
+                flex: 0 0 calc(50% - 1rem); 
             }
         }
 
@@ -846,15 +860,13 @@
             .section-title { font-size: 2.2rem; }
             .content-section { padding-top: 8rem; scroll-margin-top: 70px; }
 
-            /* Ajustes tarjetas responsive */
             .founder-card { flex: 0 0 calc(100% / 8 - (14rem / 8)); padding: 0.8rem; }
-            .admin-card { flex: 0 0 100%; } /* Muestra 1 tarjeta a la vez en móviles */
+            .admin-card { flex: 0 0 100%; } 
             .member-photo-circle { width: 90px; height: 90px; }
             .role-title { font-size: 0.8rem; }
             .member-info p { font-size: 0.8rem; }
             .close-modal { top: 10px; right: 20px; font-size: 35px; }
 
-            /* Ajuste de botones en movil para que no se salgan de la pantalla */
             .prev-btn { left: -5px; }
             .next-btn { right: -5px; }
         }
@@ -932,7 +944,7 @@
         <div class="carousel-container fade-in">
             <div class="carousel-track">
                 
-                <div class="glass-box founder-card" style="background-image: url('https://i.ibb.co/S7VVJQb6/Screenshot-2025-06-30-22-32-45-193-com-whatsapp.jpg');">
+                <div class="glass-box founder-card" style="background-image: url('https://i.ibb.co/S7VVJQb6/Screenshot-2025-06-30-22-32-45-193-com-whatsapp.jpg');" onclick="abrirModal('https://i.ibb.co/S7VVJQb6/Screenshot-2025-06-30-22-32-45-193-com-whatsapp.jpg', 'Fundadora: Kira')">
                     <div class="card-header">Order of the Phoenix</div>
                     <div class="photo-and-graphic">
                         <img class="member-photo-circle" src="https://i.ibb.co/Y7xGf6tB/kira.png" alt="Foto" >
@@ -945,20 +957,20 @@
                     </div>
                 </div>
 
-                <div class="glass-box founder-card" style="background-image: url('https://i.ibb.co/tMRdWJY3/Screenshot-2025-06-30-22-33-41-912-com-whatsapp.jpg');">
+                <div class="glass-box founder-card" style="background-image: url('https://i.ibb.co/tMRdWJY3/Screenshot-2025-06-30-22-33-41-912-com-whatsapp.jpg');" onclick="abrirModal('https://i.ibb.co/tMRdWJY3/Screenshot-2025-06-30-22-33-41-912-com-whatsapp.jpg', 'Fundadora: Lizz')">
                     <div class="card-header">Order of the Phoenix</div>
                     <div class="photo-and-graphic">
                         <img class="member-photo-circle" src="https://i.ibb.co/C3KzxsDm/lizz.png" alt="Foto">
                     </div>
                     <div class="member-info">
                         <div class="role-title">Fundadora</div>
-                        <p><strong>Nombre:</strong>Lizzeth</p>
+                        <p><strong>Nombre:</strong> Lizzeth</p>
                         <p><strong>Nick:</strong> Lizz</p>
                         <p><strong>País:</strong> Honduras</p>
                     </div>
                 </div>
 
-                <div class="glass-box founder-card" style="background-image: url('https://i.ibb.co/hFcxdPG0/Screenshot-2025-06-30-22-34-20-530-com-whatsapp.jpg');">
+                <div class="glass-box founder-card" style="background-image: url('https://i.ibb.co/hFcxdPG0/Screenshot-2025-06-30-22-34-20-530-com-whatsapp.jpg');" onclick="abrirModal('https://i.ibb.co/hFcxdPG0/Screenshot-2025-06-30-22-34-20-530-com-whatsapp.jpg', 'Fundador: Ares')">
                     <div class="card-header">Order of the Phoenix</div>
                     <div class="photo-and-graphic">
                         <img class="member-photo-circle" src="https://i.ibb.co/cXX2QFKW/ares.png" alt="Foto">
@@ -971,20 +983,20 @@
                     </div>
                 </div>
 
-                <div class="glass-box founder-card" style="background-image: url('https://i.ibb.co/GvGDmk6n/Screenshot-2025-06-30-22-40-11-227-com-whatsapp.jpg');">
+                <div class="glass-box founder-card" style="background-image: url('https://i.ibb.co/GvGDmk6n/Screenshot-2025-06-30-22-40-11-227-com-whatsapp.jpg');" onclick="abrirModal('https://i.ibb.co/GvGDmk6n/Screenshot-2025-06-30-22-40-11-227-com-whatsapp.jpg', 'Fundadora: Oisu')">
                     <div class="card-header">Order of the Phoenix</div>
                     <div class="photo-and-graphic">
                         <img class="member-photo-circle" src="https://i.ibb.co/dJrvxvkv/oisu.png" alt="Foto">
                     </div>
                     <div class="member-info">
                         <div class="role-title">Fundadora</div>
-                        <p><strong>Nombre:</strong> Trixi</p>
+                        <p><strong>Nombre:</strong> Trini</p>
                         <p><strong>Nick:</strong> Oisu</p>
                         <p><strong>País:</strong> Mexico</p>
                     </div>
                 </div>
 
-                <div class="glass-box founder-card" style="background-image: url('https://i.ibb.co/Qvnr3HsN/Screenshot-2025-06-30-22-25-41-653-com-whatsapp.jpg');">
+                <div class="glass-box founder-card" style="background-image: url('https://i.ibb.co/Qvnr3HsN/Screenshot-2025-06-30-22-25-41-653-com-whatsapp.jpg');" onclick="abrirModal('https://i.ibb.co/Qvnr3HsN/Screenshot-2025-06-30-22-25-41-653-com-whatsapp.jpg', 'Fundadora: Loww')">
                     <div class="card-header">Order of the Phoenix</div>
                     <div class="photo-and-graphic">
                         <img class="member-photo-circle" src="https://i.ibb.co/KjkfWjfx/lowww.png" alt="lowww" alt="Foto">
@@ -997,7 +1009,7 @@
                     </div>
                 </div>
 
-                <div class="glass-box founder-card" style="background-image: url('https://i.ibb.co/JFs1LySL/Screenshot-2025-06-30-22-33-18-891-com-whatsapp.jpg');">
+                <div class="glass-box founder-card" style="background-image: url('https://i.ibb.co/JFs1LySL/Screenshot-2025-06-30-22-33-18-891-com-whatsapp.jpg');" onclick="abrirModal('https://i.ibb.co/JFs1LySL/Screenshot-2025-06-30-22-33-18-891-com-whatsapp.jpg', 'Fundadora: LauYee')">
                     <div class="card-header">Order of the Phoenix</div>
                     <div class="photo-and-graphic">
                         <img class="member-photo-circle" src="https://i.ibb.co/vxJVK88H/lau.png" alt="Foto">
@@ -1010,7 +1022,7 @@
                     </div>
                 </div>
 
-                <div class="glass-box founder-card" style="background-image: url('https://i.ibb.co/wFpby2vV/Screenshot-2025-06-30-22-50-16-199-com-whatsapp.jpg');">
+                <div class="glass-box founder-card" style="background-image: url('https://i.ibb.co/wFpby2vV/Screenshot-2025-06-30-22-50-16-199-com-whatsapp.jpg');" onclick="abrirModal('https://i.ibb.co/wFpby2vV/Screenshot-2025-06-30-22-50-16-199-com-whatsapp.jpg', 'Fundadora: Anakin')">
                     <div class="card-header">Order of the Phoenix</div>
                     <div class="photo-and-graphic">
                         <img class="member-photo-circle" src="https://i.ibb.co/b5wMkhB2/Rubi.png" alt="Foto">
@@ -1023,7 +1035,7 @@
                     </div>
                 </div>
 
-                <div class="glass-box founder-card" aria-hidden="true" style="background-image: url('https://i.ibb.co/S7VVJQb6/Screenshot-2025-06-30-22-32-45-193-com-whatsapp.jpg');">
+                <div class="glass-box founder-card" aria-hidden="true" style="background-image: url('https://i.ibb.co/S7VVJQb6/Screenshot-2025-06-30-22-32-45-193-com-whatsapp.jpg');" onclick="abrirModal('https://i.ibb.co/S7VVJQb6/Screenshot-2025-06-30-22-32-45-193-com-whatsapp.jpg', 'Fundadora: Kira')">
                     <div class="card-header">Order of the Phoenix</div>
                     <div class="photo-and-graphic">
                         <img class="member-photo-circle" src="https://i.ibb.co/Y7xGf6tB/kira.png" alt="Foto Clone">
@@ -1051,133 +1063,133 @@
 
             <div class="admin-carousel-track" id="adminTrack">
                 
-                <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/tMRdWJY3/Screenshot-2025-06-30-22-33-41-912-com-whatsapp.jpg');">
+                <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/B5jSqPDb/oisu.jpg');" onclick="abrirModal('https://i.ibb.co/B5jSqPDb/oisu.jpg', 'Administradora: Oisu')">
+                    <div class="card-header">Order of the Phoenix</div>
+                    <div class="photo-and-graphic">
+                        <img class="member-photo-circle" src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Logo Clan">
+                    </div>
+                    <div class="member-info">
+                        <div class="role-title">Administradora</div>
+                        <p><strong>Nombre:</strong> Trini</p>
+                        <p><strong>Nick:</strong> Oisu</p>
+                        <p><strong>País:</strong> Mexico</p>
+                    </div>
+                </div>
+
+                <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/LBCbmVz/ares.jpg');" onclick="abrirModal('https://i.ibb.co/LBCbmVz/ares.jpg', 'Administrador: Ares')">
                     <div class="card-header">Order of the Phoenix</div>
                     <div class="photo-and-graphic">
                         <img class="member-photo-circle" src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Logo Clan">
                     </div>
                     <div class="member-info">
                         <div class="role-title">Administrador</div>
-                        <p><strong>Nombre:</strong> Lizzeth</p>
-                        <p><strong>Nick:</strong> Lizz</p>
-                        <p><strong>País:</strong> Honduras</p>
+                        <p><strong>Nombre:</strong> Cristian</p>
+                        <p><strong>Nick:</strong> Ares</p>
+                        <p><strong>País:</strong> Mexico</p>
                     </div>
                 </div>
 
-                <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/tMRdWJY3/Screenshot-2025-06-30-22-33-41-912-com-whatsapp.jpg');">
+                <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/ZRJ9xQVB/kira.jpg');" onclick="abrirModal('https://i.ibb.co/ZRJ9xQVB/kira.jpg', 'Administradora: Kira')">
+                    <div class="card-header">Order of the Phoenix</div>
+                    <div class="photo-and-graphic">
+                        <img class="member-photo-circle" src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Logo Clan">
+                    </div>
+                    <div class="member-info">
+                        <div class="role-title">Administradora</div>
+                        <p><strong>Nombre:</strong> Anel Brillet</p>
+                        <p><strong>Nick:</strong> Kira</p>
+                        <p><strong>País:</strong> Mexico</p>
+                    </div>
+                </div>
+
+                <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/Ps8NTCq4/elarqui.jpg');" onclick="abrirModal('https://i.ibb.co/Ps8NTCq4/elarqui.jpg', 'Administrador: Jasper')">
                     <div class="card-header">Order of the Phoenix</div>
                     <div class="photo-and-graphic">
                         <img class="member-photo-circle" src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Logo Clan">
                     </div>
                     <div class="member-info">
                         <div class="role-title">Administrador</div>
-                        <p><strong>Nombre:</strong> Lizzeth</p>
-                        <p><strong>Nick:</strong> Lizz</p>
-                        <p><strong>País:</strong> Honduras</p>
+                        <p><strong>Nombre:</strong> Eduardo</p>
+                        <p><strong>Nick:</strong> Jasper</p>
+                        <p><strong>País:</strong> Ecuador</p>
                     </div>
                 </div>
 
-                <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/tMRdWJY3/Screenshot-2025-06-30-22-33-41-912-com-whatsapp.jpg');">
+                <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/cSLfbzDh/roxyyy.jpg');" onclick="abrirModal('https://i.ibb.co/cSLfbzDh/roxyyy.jpg', 'Administradora: Roxy')">
                     <div class="card-header">Order of the Phoenix</div>
                     <div class="photo-and-graphic">
                         <img class="member-photo-circle" src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Logo Clan">
                     </div>
                     <div class="member-info">
-                        <div class="role-title">Administrador</div>
-                        <p><strong>Nombre:</strong> Lizzeth</p>
-                        <p><strong>Nick:</strong> Lizz</p>
-                        <p><strong>País:</strong> Honduras</p>
+                        <div class="role-title">Administradora</div>
+                        <p><strong>Nombre:</strong> Roxel</p>
+                        <p><strong>Nick:</strong> Roxy</p>
+                        <p><strong>País:</strong> Colombia</p>
                     </div>
                 </div>
 
-                <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/tMRdWJY3/Screenshot-2025-06-30-22-33-41-912-com-whatsapp.jpg');">
+                <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/3YVyc8X8/lizzz.jpg');" onclick="abrirModal('https://i.ibb.co/3YVyc8X8/lizzz.jpg', 'Administradora: Lizz')">
                     <div class="card-header">Order of the Phoenix</div>
                     <div class="photo-and-graphic">
                         <img class="member-photo-circle" src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Logo Clan">
                     </div>
                     <div class="member-info">
-                        <div class="role-title">Administrador</div>
+                        <div class="role-title">Administradora</div>
                         <p><strong>Nombre:</strong> Lizzeth</p>
                         <p><strong>Nick:</strong> Lizz</p>
                         <p><strong>País:</strong> Honduras</p>
                     </div>
                 </div>
 
-                <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/tMRdWJY3/Screenshot-2025-06-30-22-33-41-912-com-whatsapp.jpg');">
-                    <div class="card-header">Order of the Phoenix</div>
-                    <div class="photo-and-graphic">
-                        <img class="member-photo-circle" src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Logo Clan">
-                    </div>
-                    <div class="member-info">
-                        <div class="role-title">Administrador</div>
-                        <p><strong>Nombre:</strong> Lizzeth</p>
-                        <p><strong>Nick:</strong> Lizz</p>
-                        <p><strong>País:</strong> Honduras</p>
-                    </div>
-                </div>
-
-                <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/tMRdWJY3/Screenshot-2025-06-30-22-33-41-912-com-whatsapp.jpg');">
-                    <div class="card-header">Order of the Phoenix</div>
-                    <div class="photo-and-graphic">
-                        <img class="member-photo-circle" src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Logo Clan">
-                    </div>
-                    <div class="member-info">
-                        <div class="role-title">Administrador</div>
-                        <p><strong>Nombre:</strong> Lizzeth</p>
-                        <p><strong>Nick:</strong> Lizz</p>
-                        <p><strong>País:</strong> Honduras</p>
-                    </div>
-                </div>
-
-                <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/tMRdWJY3/Screenshot-2025-06-30-22-33-41-912-com-whatsapp.jpg');">
+                <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/HfWBKLkd/lalalalala.jpg');" onclick="abrirModal('https://i.ibb.co/HfWBKLkd/lalalalala.jpg', 'Host: Lala')">
                     <div class="card-header">Order of the Phoenix</div>
                     <div class="photo-and-graphic">
                         <img class="member-photo-circle" src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Logo Clan">
                     </div>
                     <div class="member-info">
                         <div class="role-title">Host</div>
-                        <p><strong>Nombre:</strong> Lizzeth</p>
-                        <p><strong>Nick:</strong> Lizz</p>
-                        <p><strong>País:</strong> Honduras</p>
+                        <p><strong>Nombre:</strong> Souad</p>
+                        <p><strong>Nick:</strong> Lala</p>
+                        <p><strong>País:</strong> España</p>
                     </div>
                 </div>
 
-                <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/tMRdWJY3/Screenshot-2025-06-30-22-33-41-912-com-whatsapp.jpg');">
+                <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/MyZQn5Tg/magnuz.jpg');" onclick="abrirModal('https://i.ibb.co/MyZQn5Tg/magnuz.jpg', 'Host: Magnuz')">
                     <div class="card-header">Order of the Phoenix</div>
                     <div class="photo-and-graphic">
                         <img class="member-photo-circle" src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Logo Clan">
                     </div>
                     <div class="member-info">
                         <div class="role-title">Host</div>
-                        <p><strong>Nombre:</strong> Lizzeth</p>
-                        <p><strong>Nick:</strong> Lizz</p>
-                        <p><strong>País:</strong> Honduras</p>
+                        <p><strong>Nombre:</strong> Cristian</p>
+                        <p><strong>Nick:</strong> Magnuz</p>
+                        <p><strong>País:</strong> Mexico</p>
                     </div>
                 </div>
 
-                <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/tMRdWJY3/Screenshot-2025-06-30-22-33-41-912-com-whatsapp.jpg');">
+                <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/LhCFL0X4/max.jpg');" onclick="abrirModal('https://i.ibb.co/LhCFL0X4/max.jpg', 'Host: Max')">
                     <div class="card-header">Order of the Phoenix</div>
                     <div class="photo-and-graphic">
                         <img class="member-photo-circle" src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Logo Clan">
                     </div>
                     <div class="member-info">
                         <div class="role-title">Host</div>
-                        <p><strong>Nombre:</strong> Lizzeth</p>
-                        <p><strong>Nick:</strong> Lizz</p>
-                        <p><strong>País:</strong> Honduras</p>
+                        <p><strong>Nombre:</strong> Max</p>
+                        <p><strong>Nick:</strong> Max</p>
+                        <p><strong>País:</strong> Venezuela</p>
                     </div>
                 </div>
 
-                <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/tMRdWJY3/Screenshot-2025-06-30-22-33-41-912-com-whatsapp.jpg');">
+                <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/mCVJx5ny/kold.jpg');" onclick="abrirModal('https://i.ibb.co/mCVJx5ny/kold.jpg', 'Host: Kold')">
                     <div class="card-header">Order of the Phoenix</div>
                     <div class="photo-and-graphic">
                         <img class="member-photo-circle" src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Logo Clan">
                     </div>
                     <div class="member-info">
                         <div class="role-title">Host</div>
-                        <p><strong>Nombre:</strong> Lizzeth</p>
-                        <p><strong>Nick:</strong> Lizz</p>
-                        <p><strong>País:</strong> Honduras</p>
+                        <p><strong>Nombre:</strong> Alessander</p>
+                        <p><strong>Nick:</strong> Kold</p>
+                        <p><strong>País:</strong> Peru</p>
                     </div>
                 </div>
             </div> 
@@ -1222,7 +1234,6 @@
     </footer>
 
     <script>
-        // --- LÓGICA DEL MENÚ MÓVIL ---
         const mobileMenu = document.getElementById('mobile-menu');
         const navLinks = document.getElementById('nav-links');
         const links = document.querySelectorAll('#nav-links li a');
@@ -1243,15 +1254,13 @@
             });
         });
 
-        // --- LÓGICA DEL CARRUSEL DE ADMINISTRADORES CON PUNTOS Y BOTONES ---
+        // --- LÓGICA DEL CARRUSEL (SOLO MANUAL) ---
         const adminTrack = document.getElementById('adminTrack');
         const adminCards = document.querySelectorAll('.admin-card');
         const dotsContainer = document.getElementById('adminDots');
         const prevBtn = document.querySelector('.prev-btn');
         const nextBtn = document.querySelector('.next-btn');
-        let autoPlayInterval;
 
-        // Crear los puntos
         adminCards.forEach((_, index) => {
             const dot = document.createElement('div');
             dot.classList.add('dot');
@@ -1259,7 +1268,6 @@
             
             dot.addEventListener('click', () => {
                 scrollToIndex(index);
-                resetAutoPlay();
             });
             dotsContainer.appendChild(dot);
         });
@@ -1280,7 +1288,7 @@
         function scrollNext() {
             const maxScroll = adminTrack.scrollWidth - adminTrack.clientWidth;
             if (adminTrack.scrollLeft >= maxScroll - 10) {
-                adminTrack.scrollTo({ left: 0, behavior: 'smooth' }); // Vuelve al inicio
+                adminTrack.scrollTo({ left: 0, behavior: 'smooth' }); 
             } else {
                 adminTrack.scrollBy({ left: getCardWidth(), behavior: 'smooth' });
             }
@@ -1289,24 +1297,15 @@
         function scrollPrev() {
             if (adminTrack.scrollLeft <= 10) {
                 const maxScroll = adminTrack.scrollWidth - adminTrack.clientWidth;
-                adminTrack.scrollTo({ left: maxScroll, behavior: 'smooth' }); // Va al final
+                adminTrack.scrollTo({ left: maxScroll, behavior: 'smooth' }); 
             } else {
                 adminTrack.scrollBy({ left: -getCardWidth(), behavior: 'smooth' });
             }
         }
 
-        // Botones manuales
-        nextBtn.addEventListener('click', () => {
-            scrollNext();
-            resetAutoPlay();
-        });
+        nextBtn.addEventListener('click', scrollNext);
+        prevBtn.addEventListener('click', scrollPrev);
 
-        prevBtn.addEventListener('click', () => {
-            scrollPrev();
-            resetAutoPlay();
-        });
-
-        // Sincronizar puntos al hacer scroll manual o automático
         adminTrack.addEventListener('scroll', () => {
             const scrollPosition = adminTrack.scrollLeft;
             const totalCardWidth = getCardWidth();
@@ -1317,25 +1316,6 @@
                 dots[currentIndex].classList.add('active');
             }
         });
-
-        // Giro Automático
-        function startAutoPlay() {
-            autoPlayInterval = setInterval(scrollNext, 3500); // Gira cada 3.5 segundos
-        }
-
-        function resetAutoPlay() {
-            clearInterval(autoPlayInterval);
-            startAutoPlay();
-        }
-
-        // Pausar si el ratón está encima del carrusel (Para que puedan leer)
-        const adminWrapper = document.querySelector('.admin-carousel-wrapper');
-        adminWrapper.addEventListener('mouseenter', () => clearInterval(autoPlayInterval));
-        adminWrapper.addEventListener('mouseleave', startAutoPlay);
-
-        // Iniciar giro
-        startAutoPlay();
-
 
         // Lógica del Modal (Galería)
         const modal = document.getElementById("miModalGaleria");
@@ -1360,7 +1340,6 @@
             }
         }
 
-        // Generador de chispas
         const sparksContainer = document.getElementById('sparks');
         for (let i = 0; i < 30; i++) {
             let spark = document.createElement('div');
@@ -1371,7 +1350,6 @@
             sparksContainer.appendChild(spark);
         }
 
-        // --- GENERADOR DE HUMO/NIEBLA ---
         const smokeContainer = document.getElementById('smoke');
         for (let i = 0; i < 15; i++) { 
             let smoke = document.createElement('div');
@@ -1389,7 +1367,6 @@
             smokeContainer.appendChild(smoke);
         }
 
-        // Animación al hacer scroll
         const faders = document.querySelectorAll('.fade-in');
         const appearOptions = {
             threshold: 0.15,
@@ -1411,9 +1388,6 @@
             appearOnScroll.observe(fader);
         });
 
-        // ----------------------------------------------------
-        // EFECTOS DE SONIDO (JS)
-        // ----------------------------------------------------
         const hoverSound = document.getElementById('hoverSound');
         const clickSound = document.getElementById('clickSound');
 
@@ -1427,7 +1401,6 @@
                 hoverSound.currentTime = 0; 
                 hoverSound.play().catch(e => {  });
             });
-            // Añadir sonido de clic a los botones del carrusel
             if(item.classList.contains('carousel-control') || item.classList.contains('dot')){
                 item.addEventListener('click', () => {
                     clickSound.currentTime = 0;
