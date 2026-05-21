@@ -1,43 +1,32 @@
 #  Order of the Phoenix
 
-Sitio web del clan **Order of the Phoenix** para *Among Us*.  
-Incluye pantalla de carga animada, intro con GIF y efectos visuales.
+Página oficial del clan **Order of the Phoenix** para *Among Us*.
 
-## Vista previa
+##  ¿Quiénes somos?
 
-- **Carga**: Logo del fénix con llamas animadas y barra de progreso (2.5s)
-- **Intro**: GIF a pantalla completa con sonido ambiental y efecto de puñalada sincronizado
-- **Contenido**: Secciones informativas, galería de dinámicas, carrusel de fundadores/staff, modal para imágenes
+Más que un clan, somos una hermandad forjada en el respeto y la sana convivencia.  
+Abrimos nuestras alas a tripulantes de todas partes (mayores de 16 años) que busquen un refugio de lealtad y diversión.
 
-## Uso local
+##  Nuestras dinámicas
 
-Abrir `index.html` en el navegador (recomendado usar un servidor local para evitar restricciones `file://`):
+- **Jueves**: Dinámicas únicas programadas
+- **Domingos**: Caos total en partidas sin reglas
+- **Cumpleaños**: Celebraciones como una verdadera familia
+- **Impostor de la semana**: Premiamos al impostor más letal
 
-```bash
-# Con Python
-python -m http.server 8000
-# Con Node
-npx serve .
-```
+##  Fundadores
 
-## Archivos
+Kira, Lizz, Ares, Oisu, Loww, LauYee, Anakin
 
-| Archivo | Descripción |
-|---------|-------------|
-| `index.html` | Página principal |
-| `style.css` | Estilos y animaciones |
-| `script.js` | Lógica de carga, intro, carrusel, modal y efectos |
-| `intro.gif` | GIF de intro (desktop) |
-| `movil.gif` | GIF de intro (móvil) |
+##  Redes sociales
 
-## Personalización
+- [Instagram](https://www.instagram.com/orderofthephoenix_clan)
+- [TikTok](https://www.tiktok.com/@pgmail.com34)
 
-- **Duración del GIF**: Editar `INTRO_DURATION` en `script.js` (en milisegundos)
-- **Tiempo del stab**: Cambiar el factor `0.4` en `startIntro()` (40% de la duración)
-- **Colores**: Variables CSS en `:root` al inicio de `style.css`
+##  ¿Quieres unirte?
 
-## Construido con
+Síguenos en redes y mándanos un mensaje para reclamar tu lugar en la Orden.
 
-- HTML / CSS / JavaScript vanilla
-- [Font Awesome](https://fontawesome.com) para iconos
-- [Google Fonts](https://fonts.google.com) (Cinzel + Montserrat)
+---
+
+*Surgidos de las cenizas.*
