@@ -33,29 +33,14 @@
         <aside>
           <nav>
             <ul id="navTabs">
-              <li class="active" data-tab="content">Secciones</li>
-              <li data-tab="gallery">Dinámicas</li>
+              <li class="active" data-tab="gallery">Dinámicas</li>
               <li data-tab="founders">Fundadores</li>
               <li data-tab="admins">Administradores</li>
+              <li data-tab="users">Usuarios</li>
             </ul>
           </nav>
         </aside>
-        <section id="contentView" class="tab-content active">
-          <h3 id="editorTitle">Selecciona una sección</h3>
-          <ul id="sectionList" class="section-list"></ul>
-          <form id="editorForm" style="display:none">
-            <label>Título</label>
-            <input type="text" id="editTitle">
-            <label>Contenido</label>
-            <textarea id="editBody" rows="6"></textarea>
-            <label>URL de imagen</label>
-            <input type="text" id="editImage">
-            <p id="editorMsg" class="msg"></p>
-            <button type="submit">Guardar cambios</button>
-          </form>
-        </section>
-
-        <section id="galleryView" class="tab-content">
+        <section id="galleryView" class="tab-content active">
           <div class="tab-header">
             <h3>Dinámicas</h3>
             <button class="btn-add" onclick="showGalleryForm()">+ Agregar</button>
@@ -86,6 +71,18 @@
             <tbody></tbody>
           </table>
           <div id="adminsEmpty" class="empty-msg">No hay administradores</div>
+        </section>
+
+        <section id="usersView" class="tab-content">
+          <div class="tab-header">
+            <h3>Usuarios</h3>
+            <button class="btn-add" onclick="showUserForm()">+ Agregar</button>
+          </div>
+          <table id="usersTable">
+            <thead><tr><th>Usuario</th><th>Rol</th><th>Creado</th><th>Acciones</th></tr></thead>
+            <tbody></tbody>
+          </table>
+          <div id="usersEmpty" class="empty-msg">No hay usuarios</div>
         </section>
       </main>
     </div>
@@ -135,6 +132,29 @@
         <p id="galleryMsg" class="msg"></p>
         <div class="modal-actions">
           <button type="button" class="btn-cancel" onclick="closeGalleryForm()">Cancelar</button>
+          <button type="submit">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="userModal" class="modal-overlay" style="display:none">
+    <div class="modal-box">
+      <h3 id="userModalTitle">Agregar usuario</h3>
+      <form id="userForm">
+        <input type="hidden" id="userId">
+        <label>Usuario</label>
+        <input type="text" id="uName" required>
+        <label>Contraseña</label>
+        <input type="password" id="uPass" required>
+        <label>Rol</label>
+        <select id="uRole">
+          <option value="admin">Admin</option>
+          <option value="editor" selected>Editor</option>
+        </select>
+        <p id="userMsg" class="msg"></p>
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" onclick="closeUserForm()">Cancelar</button>
           <button type="submit">Guardar</button>
         </div>
       </form>

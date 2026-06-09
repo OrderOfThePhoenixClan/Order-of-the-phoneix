@@ -34,51 +34,84 @@ function switchTab(tab) {
   if (tab === 'gallery') loadGallery();
   if (tab === 'founders') loadMembers('founders');
   if (tab === 'admins') loadMembers('admins');
+  if (tab === 'users') loadUsers();
 }
 
-// --- Content sections ---
-async function loadSections() {
-  const sections = await fetchAPI('/content');
-  const list = document.getElementById('sectionList');
-  list.innerHTML = '';
-  Object.keys(sections).forEach(section => {
-    const li = document.createElement('li');
-    li.textContent = sections[section].title || section;
-    li.dataset.section = section;
-    li.addEventListener('click', () => selectSection(section));
-    list.appendChild(li);
+// --- Users ---
+async function loadUsers() {
+  const users = await fetchAPI('/users');
+  const tbody = document.querySelector('#usersTable tbody');
+  const empty = document.getElementById('usersEmpty');
+  tbody.innerHTML = '';
+  if (users.length === 0) { empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+  users.forEach(u => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${u.username}</td>
+      <td>${u.role}</td>
+      <td>${u.created_at ? new Date(u.created_at).toLocaleDateString() : ''}</td>
+      <td>
+        <button class="btn-edit" onclick="editUser(${u.id}, '${u.username}', '${u.role}')">Editar</button>
+        <button class="btn-delete" onclick="deleteUser(${u.id})">Eliminar</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
   });
-  if (Object.keys(sections).length > 0) selectSection(Object.keys(sections)[0]);
 }
 
-async function selectSection(section) {
-  document.querySelectorAll('#sectionList li').forEach(li => li.classList.remove('active'));
-  const li = document.querySelector(`#sectionList li[data-section="${section}"]`);
-  if (li) li.classList.add('active');
-  const data = await fetchAPI(`/content/${section}`);
-  document.getElementById('editorTitle').textContent = data.title || section;
-  document.getElementById('editTitle').value = data.title || '';
-  document.getElementById('editBody').value = data.body || '';
-  document.getElementById('editImage').value = data.image_url || '';
-  document.getElementById('editorMsg').textContent = '';
-  document.getElementById('editorForm').style.display = 'block';
-  document.getElementById('editorForm').dataset.section = section;
+function showUserForm(data = null) {
+  document.getElementById('userModal').style.display = 'flex';
+  document.getElementById('userModalTitle').textContent = data ? 'Editar usuario' : 'Agregar usuario';
+  document.getElementById('userId').value = data ? data.id : '';
+  document.getElementById('uName').value = data ? data.username : '';
+  document.getElementById('uPass').value = '';
+  document.getElementById('uPass').required = !data;
+  document.getElementById('uRole').value = data ? data.role : 'editor';
+  document.getElementById('userMsg').textContent = '';
 }
+window.showUserForm = showUserForm;
 
-document.getElementById('editorForm').addEventListener('submit', async (e) => {
+function closeUserForm() {
+  document.getElementById('userModal').style.display = 'none';
+}
+window.closeUserForm = closeUserForm;
+
+function editUser(id, username, role) {
+  showUserForm({ id, username, role });
+}
+window.editUser = editUser;
+
+async function deleteUser(id) {
+  if (!confirm('¿Eliminar este usuario?')) return;
+  const result = await fetchAPI('/users/' + id, { method: 'DELETE' });
+  if (result.error) { alert(result.error); return; }
+  loadUsers();
+}
+window.deleteUser = deleteUser;
+
+document.getElementById('userForm').addEventListener('submit', async (e) => {
   e.preventDefault();
-  const section = document.getElementById('editorForm').dataset.section;
-  const msg = document.getElementById('editorMsg');
-  const result = await fetchAPI(`/content/${section}`, {
-    method: 'PUT',
-    body: JSON.stringify({
-      title: document.getElementById('editTitle').value,
-      body: document.getElementById('editBody').value,
-      image_url: document.getElementById('editImage').value
-    })
-  });
-  msg.textContent = result.success ? '¡Guardado!' : (result.error || 'Error');
-  msg.className = result.success ? 'msg success' : 'msg error';
+  const id = document.getElementById('userId').value;
+  const msg = document.getElementById('userMsg');
+  const data = {
+    username: document.getElementById('uName').value,
+    password: document.getElementById('uPass').value,
+    role: document.getElementById('uRole').value
+  };
+  let result;
+  if (id) {
+    result = await fetchAPI('/users/' + id + '/password', { method: 'PUT', body: JSON.stringify({ password: data.password }) });
+  } else {
+    result = await fetchAPI('/users', { method: 'POST', body: JSON.stringify(data) });
+  }
+  if (result.success || result.id) {
+    closeUserForm();
+    loadUsers();
+  } else {
+    msg.textContent = result.error || 'Error al guardar';
+    msg.className = 'msg error';
+  }
 });
 
 // --- Members (founders / admins) ---
@@ -296,7 +329,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (auth.authenticated) {
     document.getElementById('userName').textContent = auth.username;
     showView('dashboardView');
-    await loadSections();
   } else {
     showView('loginView');
   }
