@@ -48,6 +48,13 @@ function initDB() {
       cover_url TEXT DEFAULT '',
       sort_order INTEGER DEFAULT 0
     );
+
+    CREATE TABLE IF NOT EXISTS gallery (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT DEFAULT '',
+      image_url TEXT DEFAULT '',
+      sort_order INTEGER DEFAULT 0
+    );
   `);
 
   const adminUser = db.prepare('SELECT id FROM users WHERE username = ?').get(process.env.ADMIN_USER);
@@ -61,7 +68,7 @@ function initDB() {
   const insertSection = db.prepare('INSERT OR IGNORE INTO content (section, title, body) VALUES (?, ?, ?)');
   insertSection.run('hero', 'Order of the Phoenix', 'Renacemos de las cenizas para dominar la nave.');
   insertSection.run('about', '¿Quiénes somos?', 'Más que un clan, somos una hermandad forjada en el respeto y la sana convivencia.');
-  insertSection.run('dynamics', 'Nuestras Dinámicas', 'Jueves: dinámicas únicas. Domingos: caos total. Cumpleaños: celebración familiar.');
+  insertSection.run('dynamics', 'Nuestras Dinámicas', '¡Estas son algunas de las dinamicas que realizamos entre semana y cada jueves!');
   insertSection.run('rules', 'Reglas del Clan', 'Código de convivencia para mantener el orden en la nave.');
 
   const founderCount = db.prepare('SELECT COUNT(*) as count FROM founders').get().count;
@@ -90,6 +97,18 @@ function initDB() {
     insert.run('Max', 'Max', 'Venezuela', 'Host', 'https://i.ibb.co/nWT5mTy/phoenix.jpg', 'https://i.ibb.co/LhCFL0X4/max.jpg', 8);
     insert.run('Alessander', 'Kold', 'Peru', 'Host', 'https://i.ibb.co/nWT5mTy/phoenix.jpg', 'https://i.ibb.co/mCVJx5ny/kold.jpg', 9);
     console.log('Admins sembrados');
+  }
+
+  const galleryCount = db.prepare('SELECT COUNT(*) as count FROM gallery').get().count;
+  if (galleryCount === 0) {
+    const insert = db.prepare('INSERT INTO gallery (title, image_url, sort_order) VALUES (?, ?, ?)');
+    insert.run('Dinámica Squid', 'https://i.ibb.co/VYb6LdwS/dinamica-squid.jpg', 1);
+    insert.run('Modo Squid Games', 'https://i.ibb.co/tMxK28FD/squid.jpg', 2);
+    insert.run('Modo Revolución', 'https://i.ibb.co/wZvkqMz0/Revolucion.jpg', 3);
+    insert.run('Explicación Revolución', 'https://i.ibb.co/60jqgw5B/explicacion-revo.jpg', 4);
+    insert.run('Cumpleaños Temáticos', 'https://i.ibb.co/RTwzwMX5/Cumplea-os.jpg', 5);
+    insert.run('Impostor de la Semana', 'https://i.ibb.co/rKBMpYTk/Impostor-de-la-semana.jpg', 6);
+    console.log('Galería sembrada');
   }
 }
 

@@ -1,8 +1,15 @@
 const API = '/api';
 
 async function fetchAPI(path, options = {}) {
+  const headers = {};
+  if (!(options.body instanceof FormData)) {
+    headers['Content-Type'] = 'application/json';
+  }
+  if (options.body instanceof FormData && options.method === 'PUT') {
+    options.body.append('_method', 'PUT');
+  }
   const res = await fetch(`${API}${path}`, {
-    headers: { 'Content-Type': 'application/json' },
+    headers,
     ...options
   });
   return res.json();
@@ -24,6 +31,7 @@ function switchTab(tab) {
   document.querySelector(`#navTabs li[data-tab="${tab}"]`).classList.add('active');
   document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
   document.getElementById(`${tab}View`).classList.add('active');
+  if (tab === 'gallery') loadGallery();
   if (tab === 'founders') loadMembers('founders');
   if (tab === 'admins') loadMembers('admins');
 }
@@ -113,6 +121,7 @@ function showMemberForm(type, data = null) {
   document.getElementById('mRole').value = data ? data.role : '';
   document.getElementById('mPhoto').value = data ? data.photo_url : '';
   document.getElementById('mCover').value = data ? data.cover_url : '';
+  document.getElementById('mOrder').value = data ? data.sort_order : '';
   document.getElementById('memberMsg').textContent = '';
 }
 window.showMemberForm = showMemberForm;
@@ -145,7 +154,8 @@ document.getElementById('memberForm').addEventListener('submit', async (e) => {
     country: document.getElementById('mCountry').value,
     role: document.getElementById('mRole').value,
     photo_url: document.getElementById('mPhoto').value,
-    cover_url: document.getElementById('mCover').value
+    cover_url: document.getElementById('mCover').value,
+    sort_order: parseInt(document.getElementById('mOrder').value) || 0
   };
   const msg = document.getElementById('memberMsg');
   let result;
@@ -157,6 +167,118 @@ document.getElementById('memberForm').addEventListener('submit', async (e) => {
   if (result.success) {
     closeMemberForm();
     loadMembers(type);
+  } else {
+    msg.textContent = result.error || 'Error al guardar';
+    msg.className = 'msg error';
+  }
+});
+
+// --- Gallery ---
+let galleryUploadedUrl = '';
+
+async function loadGallery() {
+  const items = await fetchAPI('/gallery');
+  const grid = document.getElementById('galleryGrid');
+  const empty = document.getElementById('galleryEmpty');
+  grid.innerHTML = '';
+  if (items.length === 0) { empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+  items.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'gallery-item-admin';
+    div.innerHTML = `
+      <img src="${item.image_url}" alt="${item.title}">
+      <div class="info">
+        <span>${item.title || 'Sin título'}</span>
+        <div>
+          <button onclick="editGallery(${item.id})">Editar</button>
+          <button onclick="deleteGallery(${item.id})" style="color:#d32f2f">×</button>
+        </div>
+      </div>
+    `;
+    grid.appendChild(div);
+  });
+}
+
+function showGalleryForm(data = null) {
+  document.getElementById('galleryModal').style.display = 'flex';
+  document.getElementById('galleryModalTitle').textContent = data ? 'Editar dinámica' : 'Agregar dinámica';
+  document.getElementById('galleryId').value = data ? data.id : '';
+  document.getElementById('galleryTitle').value = data ? data.title : '';
+  document.getElementById('galleryUrl').value = data ? data.image_url : '';
+  document.getElementById('galleryFile').value = '';
+  galleryUploadedUrl = data ? data.image_url : '';
+  const preview = document.getElementById('galleryPreview');
+  if (galleryUploadedUrl) {
+    preview.style.display = 'block';
+    preview.innerHTML = `<img src="${galleryUploadedUrl}">`;
+  } else {
+    preview.style.display = 'none';
+  }
+  document.getElementById('galleryMsg').textContent = '';
+}
+window.showGalleryForm = showGalleryForm;
+
+function closeGalleryForm() {
+  document.getElementById('galleryModal').style.display = 'none';
+}
+window.closeGalleryForm = closeGalleryForm;
+
+async function editGallery(id) {
+  const data = await fetchAPI('/gallery/' + id);
+  showGalleryForm(data);
+}
+window.editGallery = editGallery;
+
+async function deleteGallery(id) {
+  if (!confirm('¿Eliminar esta imagen?')) return;
+  await fetchAPI('/gallery/' + id, { method: 'DELETE' });
+  loadGallery();
+}
+window.deleteGallery = deleteGallery;
+
+document.getElementById('galleryFile').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const fd = new FormData();
+  fd.append('file', file);
+  const result = await fetchAPI('/gallery/upload', { method: 'POST', body: fd });
+  if (result.url) {
+    galleryUploadedUrl = result.url;
+    document.getElementById('galleryUrl').value = result.url;
+    const preview = document.getElementById('galleryPreview');
+    preview.style.display = 'block';
+    preview.innerHTML = `<img src="${result.url}">`;
+  }
+});
+
+document.getElementById('galleryUrl').addEventListener('input', (e) => {
+  const url = e.target.value;
+  if (url) {
+    galleryUploadedUrl = url;
+    const preview = document.getElementById('galleryPreview');
+    preview.style.display = 'block';
+    preview.innerHTML = `<img src="${url}">`;
+  }
+});
+
+document.getElementById('galleryForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const id = document.getElementById('galleryId').value;
+  const data = {
+    title: document.getElementById('galleryTitle').value,
+    image_url: galleryUploadedUrl
+  };
+  const msg = document.getElementById('galleryMsg');
+  let result;
+  if (id) {
+    result = await fetchAPI('/gallery/' + id, { method: 'PUT', body: JSON.stringify(data) });
+  } else {
+    result = await fetchAPI('/gallery', { method: 'POST', body: JSON.stringify(data) });
+  }
+  if (result.success) {
+    closeGalleryForm();
+    loadGallery();
   } else {
     msg.textContent = result.error || 'Error al guardar';
     msg.className = 'msg error';

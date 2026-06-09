@@ -30,13 +30,14 @@ function createMemberRoutes(table) {
 
   router.put('/:id', requireAuth, (req, res) => {
     const { name, nickname, country, role, photo_url, cover_url, sort_order } = req.body;
-    const existing = db.prepare(`SELECT id FROM ${table} WHERE id = ?`).get(req.params.id);
+    const existing = db.prepare(`SELECT * FROM ${table} WHERE id = ?`).get(req.params.id);
     if (!existing) return res.status(404).json({ error: 'No encontrado' });
     db.prepare(
       `UPDATE ${table} SET name=?, nickname=?, country=?, role=?, photo_url=?, cover_url=?, sort_order=? WHERE id=?`
     ).run(
-      name ?? '', nickname ?? '', country ?? '', role ?? '',
-      photo_url ?? '', cover_url ?? '', sort_order ?? 0, req.params.id
+      name ?? existing.name, nickname ?? existing.nickname, country ?? existing.country,
+      role ?? existing.role, photo_url ?? existing.photo_url, cover_url ?? existing.cover_url,
+      sort_order ?? existing.sort_order, req.params.id
     );
     res.json({ success: true });
   });

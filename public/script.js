@@ -226,6 +226,7 @@ function initPageEffects() {
     // Cargar miembros desde la API
     loadFounders();
     loadAdmins();
+    loadGallery();
 }
 
 async function loadFounders() {
@@ -304,6 +305,28 @@ async function loadAdmins() {
         initAdminCarousel();
     } catch (e) {
         console.log('Error cargando administradores');
+    }
+}
+
+async function loadGallery() {
+    try {
+        const res = await fetch('/api/gallery');
+        const items = await res.json();
+        const grid = document.getElementById('galleryGrid');
+        if (!grid || items.length === 0) return;
+        grid.innerHTML = '';
+        items.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'glass-box gallery-item fade-in';
+            div.onclick = () => abrirModal(item.image_url, item.title);
+            const img = document.createElement('img');
+            img.src = item.image_url;
+            img.alt = item.title || 'Galería';
+            div.appendChild(img);
+            grid.appendChild(div);
+        });
+    } catch (e) {
+        console.log('Error cargando galería');
     }
 }
 

@@ -5,6 +5,7 @@ const path = require('path');
 const authRoutes = require('./routes/auth');
 const contentRoutes = require('./routes/content');
 const createMemberRoutes = require('./routes/members');
+const galleryRoutes = require('./routes/gallery');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -24,6 +25,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/content', contentRoutes);
 app.use('/api/founders', createMemberRoutes('founders'));
 app.use('/api/admins', createMemberRoutes('admins'));
+app.use('/api/gallery', galleryRoutes);
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
