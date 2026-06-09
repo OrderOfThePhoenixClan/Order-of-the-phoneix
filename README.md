@@ -5,28 +5,44 @@ Página oficial del clan **Order of the Phoenix** para *Among Us*.
 ##  ¿Quiénes somos?
 
 Más que un clan, somos una hermandad forjada en el respeto y la sana convivencia.  
-Abrimos nuestras alas a tripulantes de todas partes (mayores de 16 años) que busquen un refugio de lealtad y diversión.
+Abrimos nuestras alas a tripulantes de todas partes que busquen un refugio de lealtad y diversión.
 
-##  Nuestras dinámicas
+##  Instalación
 
-- **Jueves**: Dinámicas únicas programadas
-- **Domingos**: Caos total en partidas sin reglas
-- **Cumpleaños**: Celebraciones como una verdadera familia
-- **Impostor de la semana**: Premiamos al impostor más letal
+```bash
+git clone <repo>
+cd animacion
+npm install
+```
 
-##  Fundadores
+Editar `.env` con usuario y contraseña del admin.
 
-Kira, Lizz, Ares, Oisu, Loww, LauYee, Anakin
+##  Uso
 
-##  Redes sociales
+```bash
+npm start
+```
 
-- [Instagram](https://www.instagram.com/orderofthephoenix_clan)
-- [TikTok](https://www.tiktok.com/@pgmail.com34)
+Ir a `http://localhost:3000`  
+Panel admin: `http://localhost:3000/admin/`
 
-##  ¿Quieres unirte?
+##  Estructura
 
-Síguenos en redes y mándanos un mensaje para reclamar tu lugar en la Orden.
+```
+server.js          # Servidor Express
+database/db.js     # Base de datos SQLite
+routes/auth.js     # Login / logout
+routes/content.js  # CRUD de secciones
+middlewares/auth.js# Protección de rutas
+public/            # Sitio web estático
+  index.html
+  admin/           # Panel de administración
+.env               # Config (no subir a git)
+```
 
----
+##  Despliegue (Railway)
 
-*Surgidos de las cenizas.*
+1. Subir a GitHub
+2. En Railway: New Project → Deploy from GitHub
+3. Agregar variables de entorno (SESSION_SECRET, ADMIN_USER, ADMIN_PASS)
+4. Listo

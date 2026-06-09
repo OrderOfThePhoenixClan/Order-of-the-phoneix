@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order of the Phoenix — Clan de Among Us</title>
+    <meta name="description" content="Order of the Phoenix es un clan de Among Us. Unite a nuestra hermandad, participá en dinámicas semanales y viví la experiencia impostor. ¡Renacé de las cenizas!">
+    <meta name="keywords" content="Among Us, clan, Order of the Phoenix, comunidad Among Us, dinámicas Among Us, impostor, hermandad gaming">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph (Discord, WhatsApp, Facebook) -->
+    <meta property="og:title" content="Order of the Phoenix — Clan de Among Us">
+    <meta property="og:description" content="Unite al clan Order of the Phoenix. Dinámicas semanales, impostor de la semana y una comunidad que te espera.">
+    <meta property="og:image" content="https://i.ibb.co/nWT5mTy/phoenix.jpg">
+    <meta property="og:url" content="https://orderofthephoenix.clan">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_LA">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Order of the Phoenix — Clan de Among Us">
+    <meta name="twitter:description" content="Unite al clan Order of the Phoenix. Dinámicas semanales, impostor de la semana y una comunidad que te espera.">
+    <meta name="twitter:image" content="https://i.ibb.co/nWT5mTy/phoenix.jpg">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://i.ibb.co/nWT5mTy/phoenix.jpg">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <audio id="hoverSound" src="https://raw.githubusercontent.com/fabiangreco/AmongUs-Sounds/main/Sounds/UI/menu_highlight.wav" preload="auto"></audio>
+    <audio id="clickSound" src="https://raw.githubusercontent.com/fabiangreco/AmongUs-Sounds/main/Sounds/UI/menu_select.wav" preload="auto"></audio>
+    <audio id="introAmbient" src="https://raw.githubusercontent.com/fabiangreco/AmongUs-Sounds/main/Sounds/UI/scan_loop.wav" preload="auto"></audio>
+    <audio id="introStab" src="https://raw.githubusercontent.com/fabiangreco/AmongUs-Sounds/main/Sounds/UI/player_kill.wav" preload="auto"></audio>
+
+
+    <!-- ========== LOADING SCREEN ========== -->
+    <div id="loader" class="loader-screen">
+        <div class="loader-content">
+            <div class="loader-phoenix-container">
+                <img src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Phoenix" class="loader-phoenix">
+                <div class="loader-flames">
+                    <span></span><span></span><span></span><span></span><span></span><span></span>
+                </div>
+            </div>
+            <p class="loader-title">Order of the Phoenix</p>
+            <p class="loader-subtitle">Renaciendo de las cenizas...</p>
+            <div class="loader-bar-track">
+                <div class="loader-bar-fill" id="loaderBar"></div>
+            </div>
+            <p class="loader-percent" id="loaderPercent">0%</p>
+        </div>
+    </div>
+
+    <!-- ========== INTRO ANIMATION (Multimedia) ========== -->
+    <div id="introAnimation" class="intro-screen">
+        <div class="intro-bg-particles" id="introParticles"></div>
+        <div class="intro-scene">
+            <div class="intro-media-container" id="introMediaContainer">
+                <picture>
+                    <source srcset="movil.gif" media="(max-width: 768px)">
+                    <img id="introGif" src="intro.gif" alt="Intro Animation">
+                </picture>
+            </div>
+        </div>
+        <div class="intro-title-wrap">
+            <p class="intro-title">Order of the Phoenix</p>
+            <p class="intro-tagline">Entre nosotros, nadie está a salvo...</p>
+        </div>
+        <div class="intro-skip" id="introSkip">Saltar <i class="fa-solid fa-forward"></i></div>
+        <div class="intro-timer-bar" id="introTimerBar"></div>
+    </div>
+
+    <!-- ========== MAIN CONTENT (wrapper to hide initially) ========== -->
+    <div id="mainContent" class="main-content">
+
+        <div class="sparks-container" id="sparks"></div> 
+        <div class="smoke-effect" id="smoke"></div>
+
+        <nav>
+            <div class="logo">Order of the Phoenix</div>
+            
+            <div class="menu-toggle" id="mobile-menu">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+
+            <ul id="nav-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#informacion">Info</a></li>
+                <li><a href="#dinamicas">Dinámicas</a></li>
+                <li><a href="#fundadores">Fundadores</a></li>
+                <li><a href="#administradores">Staff</a></li>
+                <li><a href="#reglas">Reglas</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+
+        <section id="inicio" class="hero-section">
+            <div class="hero-layout fade-in">
+                <div class="hero-text">
+                    <h1 class="hero-title">Order of the Phoenix</h1>
+                    <p class="hero-subtitle">Renacemos de las cenizas para dominar la nave.<br>Descubre a los impostores con nosotros o arde en el intento.</p>
+                </div>
+                
+                <div class="hero-image">
+                  <img src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Fénix - Order of the Phoenix" border="0">            
+                </div>
+            </div>
+            
+            <div class="wave-container">
+                <svg class="wave-svg" viewBox="0 0 1440 320" preserveAspectRatio="none">
+                    <path class="wave-fill" d="M0,160L48,176C96,192,192,224,288,229.3C384,235,480,213,576,192C672,171,768,149,864,144C960,139,1056,149,1152,165.3C1248,181,1344,203,1392,213.3L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+                </svg>
+            </div>
+            <a href="#informacion" class="scroll-down-btn">▼</a>
+        </section>
+
+        <section id="informacion" class="content-section">
+            <h2 class="section-title fade-in">¿Quiénes somos?</h2>
+            <p class="section-text fade-in">Más que un clan, somos una hermandad forjada en el respeto y la sana convivencia. En Order of the Phoenix, abrimos nuestras alas a tripulantes de todas partes (mayores de 16 años) que busquen un refugio de lealtad y diversión. Nuestra nave nunca descansa: cada jueves nos sumergimos en dinámicas únicas, los domingos desatamos el caos total en partidas sin reglas y celebramos cada cumpleaños como una verdadera familia. Además, honramos el ingenio: cada semana premiamos al impostor más letal con el galardón de honor. Siempre estamos buscando nuevas leyendas para nuestra Orden. ¿Estás listo para el despegue?</p>
+        </section>
+
+        <section id="dinamicas" class="content-section">
+            <h2 class="section-title fade-in">Nuestras Dinámicas</h2>
+            <p class="section-text fade-in" style="background: transparent; border: none; box-shadow: none; padding: 0; margin-bottom: 2rem;">¡Estas son algunas de las dinamicas que realizamos entre semana y cada jueves!</p>
+            <div class="gallery-grid">
+                <div class="glass-box gallery-item fade-in" onclick="abrirModal('https://i.ibb.co/VYb6LdwS/dinamica-squid.jpg', 'Dinámica Squid')"><img src="https://i.ibb.co/VYb6LdwS/dinamica-squid.jpg" alt="Dinámica Squid - Among Us"></div>
+                <div class="glass-box gallery-item fade-in" onclick="abrirModal('https://i.ibb.co/tMxK28FD/squid.jpg', 'Modo Squid Games')"><img src="https://i.ibb.co/tMxK28FD/squid.jpg" alt="squid" border="0"></div>
+                <div class="glass-box gallery-item fade-in" onclick="abrirModal('https://i.ibb.co/wZvkqMz0/Revolucion.jpg', 'Modo Revolución')"><img src="https://i.ibb.co/wZvkqMz0/Revolucion.jpg" alt="Revolucion" border="0"></div>
+                <div class="glass-box gallery-item fade-in" onclick="abrirModal('https://i.ibb.co/60jqgw5B/explicacion-revo.jpg', 'explicación del modo revolución')"><img src="https://i.ibb.co/60jqgw5B/explicacion-revo.jpg" alt="explicacion-revo" border="0"></div>
+                <div class="glass-box gallery-item fade-in" onclick="abrirModal('https://i.ibb.co/RTwzwMX5/Cumplea-os.jpg', 'Cumpleaños con Tematicas')"><img src="https://i.ibb.co/RTwzwMX5/Cumplea-os.jpg" alt="Cumplea-os" border="0"></div>
+                <div class="glass-box gallery-item fade-in" onclick="abrirModal('https://i.ibb.co/rKBMpYTk/Impostor-de-la-semana.jpg', 'Impostores de la Semana')"><img src="https://i.ibb.co/rKBMpYTk/Impostor-de-la-semana.jpg" alt="Impostor-de-la-semana" border="0"></div>
+            </div>
+        </section>
+
+        <section id="fundadores" class="content-section">
+            <h2 class="section-title fade-in">Nuestros Fundadores</h2>
+            <p class="section-text fade-in" style="background: transparent; border: none; box-shadow: none; padding: 0; margin-bottom: 1rem;">Order of the Phoenix no nació por casualidad, sino por resiliencia. Surgimos de las cenizas de un malentendido en un clan anterior que, lejos de apagarnos, se convirtió en la chispa necesaria para forjar nuestro propio camino. Hoy, aunque no estamos todos los fundadores presentes, lideramos un espacio donde la lealtad y la transparencia son la base, demostrando que para volar más alto, a veces hace falta quemar el pasado.</p>
+            
+            <div class="carousel-container fade-in">
+                <div class="carousel-track">
+                    
+                    <div class="glass-box founder-card" style="background-image: url('https://i.ibb.co/S7VVJQb6/Screenshot-2025-06-30-22-32-45-193-com-whatsapp.jpg');" onclick="abrirModal('https://i.ibb.co/S7VVJQb6/Screenshot-2025-06-30-22-32-45-193-com-whatsapp.jpg', 'Fundadora: Kira')">
+                        <div class="card-header">Order of the Phoenix</div>
+                        <div class="photo-and-graphic">
+                            <img class="member-photo-circle" src="https://i.ibb.co/Y7xGf6tB/kira.png" alt="Fundadora: Kira">
+                        </div>
+                        <div class="member-info">
+                            <div class="role-title">Fundadora</div>
+                            <p><strong>Nombre:</strong> Anel Brillet</p>
+                            <p><strong>Nick:</strong> Kira</p>
+                            <p><strong>País:</strong> Mexico</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-box founder-card" style="background-image: url('https://i.ibb.co/tMRdWJY3/Screenshot-2025-06-30-22-33-41-912-com-whatsapp.jpg');" onclick="abrirModal('https://i.ibb.co/tMRdWJY3/Screenshot-2025-06-30-22-33-41-912-com-whatsapp.jpg', 'Fundadora: Lizz')">
+                        <div class="card-header">Order of the Phoenix</div>
+                        <div class="photo-and-graphic">
+                            <img class="member-photo-circle" src="https://i.ibb.co/C3KzxsDm/lizz.png" alt="Miembro fundador">
+                        </div>
+                        <div class="member-info">
+                            <div class="role-title">Fundadora</div>
+                            <p><strong>Nombre:</strong> Lizzeth</p>
+                            <p><strong>Nick:</strong> Lizz</p>
+                            <p><strong>País:</strong> Honduras</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-box founder-card" style="background-image: url('https://i.ibb.co/hFcxdPG0/Screenshot-2025-06-30-22-34-20-530-com-whatsapp.jpg');" onclick="abrirModal('https://i.ibb.co/hFcxdPG0/Screenshot-2025-06-30-22-34-20-530-com-whatsapp.jpg', 'Fundador: Ares')">
+                        <div class="card-header">Order of the Phoenix</div>
+                        <div class="photo-and-graphic">
+                            <img class="member-photo-circle" src="https://i.ibb.co/cXX2QFKW/ares.png" alt="Miembro fundador">
+                        </div>
+                        <div class="member-info">
+                            <div class="role-title">Fundador</div>
+                            <p><strong>Nombre:</strong> Cristian</p>
+                            <p><strong>Nick:</strong> Ares</p>
+                            <p><strong>País:</strong> Mexico</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-box founder-card" style="background-image: url('https://i.ibb.co/GvGDmk6n/Screenshot-2025-06-30-22-40-11-227-com-whatsapp.jpg');" onclick="abrirModal('https://i.ibb.co/GvGDmk6n/Screenshot-2025-06-30-22-40-11-227-com-whatsapp.jpg', 'Fundadora: Oisu')">
+                        <div class="card-header">Order of the Phoenix</div>
+                        <div class="photo-and-graphic">
+                            <img class="member-photo-circle" src="https://i.ibb.co/dJrvxvkv/oisu.png" alt="Miembro fundador">
+                        </div>
+                        <div class="member-info">
+                            <div class="role-title">Fundadora</div>
+                            <p><strong>Nombre:</strong> Trini</p>
+                            <p><strong>Nick:</strong> Oisu</p>
+                            <p><strong>País:</strong> Mexico</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-box founder-card" style="background-image: url('https://i.ibb.co/Qvnr3HsN/Screenshot-2025-06-30-22-25-41-653-com-whatsapp.jpg');" onclick="abrirModal('https://i.ibb.co/Qvnr3HsN/Screenshot-2025-06-30-22-25-41-653-com-whatsapp.jpg', 'Fundadora: Loww')">
+                        <div class="card-header">Order of the Phoenix</div>
+                        <div class="photo-and-graphic">
+                            <img class="member-photo-circle" src="https://i.ibb.co/KjkfWjfx/lowww.png" alt="Fundadora: Loww">
+                        </div>
+                        <div class="member-info">
+                            <div class="role-title">Fundadora</div>
+                            <p><strong>Nombre:</strong> Alo</p>
+                            <p><strong>Nick:</strong> Loww</p>
+                            <p><strong>País:</strong> Mexico</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-box founder-card" style="background-image: url('https://i.ibb.co/JFs1LySL/Screenshot-2025-06-30-22-33-18-891-com-whatsapp.jpg');" onclick="abrirModal('https://i.ibb.co/JFs1LySL/Screenshot-2025-06-30-22-33-18-891-com-whatsapp.jpg', 'Fundadora: LauYee')">
+                        <div class="card-header">Order of the Phoenix</div>
+                        <div class="photo-and-graphic">
+                            <img class="member-photo-circle" src="https://i.ibb.co/vxJVK88H/lau.png" alt="Miembro fundador">
+                        </div>
+                        <div class="member-info">
+                            <div class="role-title">Fundadora</div>
+                            <p><strong>Nombre:</strong> Diana Laura</p>
+                            <p><strong>Nick:</strong> LauYee</p>
+                            <p><strong>País:</strong> Mexico</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-box founder-card" style="background-image: url('https://i.ibb.co/wFpby2vV/Screenshot-2025-06-30-22-50-16-199-com-whatsapp.jpg');" onclick="abrirModal('https://i.ibb.co/wFpby2vV/Screenshot-2025-06-30-22-50-16-199-com-whatsapp.jpg', 'Fundadora: Anakin')">
+                        <div class="card-header">Order of the Phoenix</div>
+                        <div class="photo-and-graphic">
+                            <img class="member-photo-circle" src="https://i.ibb.co/b5wMkhB2/Rubi.png" alt="Miembro fundador">
+                        </div>
+                        <div class="member-info">
+                            <div class="role-title">Fundadora</div>
+                            <p><strong>Nombre:</strong> Rubi</p>
+                            <p><strong>Nick:</strong> Anakin</p>
+                            <p><strong>País:</strong> Mexico</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-box founder-card" aria-hidden="true" style="background-image: url('https://i.ibb.co/S7VVJQb6/Screenshot-2025-06-30-22-32-45-193-com-whatsapp.jpg');" onclick="abrirModal('https://i.ibb.co/S7VVJQb6/Screenshot-2025-06-30-22-32-45-193-com-whatsapp.jpg', 'Fundadora: Kira')">
+                        <div class="card-header">Order of the Phoenix</div>
+                        <div class="photo-and-graphic">
+                            <img class="member-photo-circle" src="https://i.ibb.co/Y7xGf6tB/kira.png" alt="Fundadora: Kira">
+                        </div>
+                        <div class="member-info">
+                            <div class="role-title">Fundadora</div>
+                            <p><strong>Nombre:</strong> Anel Brillet</p>
+                            <p><strong>Nick:</strong> Kira</p>
+                            <p><strong>País:</strong> Mexico</p>
+                        </div>
+                    </div>
+                
+                </div> 
+            </div>
+        </section>
+
+        <section id="administradores" class="content-section">
+            <h2 class="section-title fade-in">Administradores y Host</h2>
+            <p class="section-text fade-in" style="background: transparent; border: none; box-shadow: none; padding: 0; margin-bottom: 1rem;">Son los pilares de la nave. Quienes mantienen el orden, velan por nuestra comunidad y celebran las dinámicas que nos mantienen unidos semana a semana.</p>
+            
+            <div class="admin-carousel-wrapper fade-in">
+                
+                <button class="carousel-control prev-btn"><i class="fa-solid fa-chevron-left"></i></button>
+                <button class="carousel-control next-btn"><i class="fa-solid fa-chevron-right"></i></button>
+
+                <div class="admin-carousel-track" id="adminTrack">
+                    
+                    <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/B5jSqPDb/oisu.jpg');" onclick="abrirModal('https://i.ibb.co/B5jSqPDb/oisu.jpg', 'Administradora: Oisu')">
+                        <div class="card-header">Order of the Phoenix</div>
+                        <div class="photo-and-graphic">
+                            <img class="member-photo-circle" src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Logo Order of the Phoenix">
+                        </div>
+                        <div class="member-info">
+                            <div class="role-title">Administradora</div>
+                            <p><strong>Nombre:</strong> Trini</p>
+                            <p><strong>Nick:</strong> Oisu</p>
+                            <p><strong>País:</strong> Mexico</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/LBCbmVz/ares.jpg');" onclick="abrirModal('https://i.ibb.co/LBCbmVz/ares.jpg', 'Administrador: Ares')">
+                        <div class="card-header">Order of the Phoenix</div>
+                        <div class="photo-and-graphic">
+                            <img class="member-photo-circle" src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Logo Order of the Phoenix">
+                        </div>
+                        <div class="member-info">
+                            <div class="role-title">Administrador</div>
+                            <p><strong>Nombre:</strong> Cristian</p>
+                            <p><strong>Nick:</strong> Ares</p>
+                            <p><strong>País:</strong> Mexico</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/ZRJ9xQVB/kira.jpg');" onclick="abrirModal('https://i.ibb.co/ZRJ9xQVB/kira.jpg', 'Administradora: Kira')">
+                        <div class="card-header">Order of the Phoenix</div>
+                        <div class="photo-and-graphic">
+                            <img class="member-photo-circle" src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Logo Order of the Phoenix">
+                        </div>
+                        <div class="member-info">
+                            <div class="role-title">Administradora</div>
+                            <p><strong>Nombre:</strong> Anel Brillet</p>
+                            <p><strong>Nick:</strong> Kira</p>
+                            <p><strong>País:</strong> Mexico</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/Ps8NTCq4/elarqui.jpg');" onclick="abrirModal('https://i.ibb.co/Ps8NTCq4/elarqui.jpg', 'Administrador: Jasper')">
+                        <div class="card-header">Order of the Phoenix</div>
+                        <div class="photo-and-graphic">
+                            <img class="member-photo-circle" src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Logo Order of the Phoenix">
+                        </div>
+                        <div class="member-info">
+                            <div class="role-title">Administrador</div>
+                            <p><strong>Nombre:</strong> Eduardo</p>
+                            <p><strong>Nick:</strong> Jasper</p>
+                            <p><strong>País:</strong> Ecuador</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/cSLfbzDh/roxyyy.jpg');" onclick="abrirModal('https://i.ibb.co/cSLfbzDh/roxyyy.jpg', 'Administradora: Roxy')">
+                        <div class="card-header">Order of the Phoenix</div>
+                        <div class="photo-and-graphic">
+                            <img class="member-photo-circle" src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Logo Order of the Phoenix">
+                        </div>
+                        <div class="member-info">
+                            <div class="role-title">Administradora</div>
+                            <p><strong>Nombre:</strong> Roxel</p>
+                            <p><strong>Nick:</strong> Roxy</p>
+                            <p><strong>País:</strong> Colombia</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/3YVyc8X8/lizzz.jpg');" onclick="abrirModal('https://i.ibb.co/3YVyc8X8/lizzz.jpg', 'Administradora: Lizz')">
+                        <div class="card-header">Order of the Phoenix</div>
+                        <div class="photo-and-graphic">
+                            <img class="member-photo-circle" src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Logo Order of the Phoenix">
+                        </div>
+                        <div class="member-info">
+                            <div class="role-title">Administradora</div>
+                            <p><strong>Nombre:</strong> Lizzeth</p>
+                            <p><strong>Nick:</strong> Lizz</p>
+                            <p><strong>País:</strong> Honduras</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/HfWBKLkd/lalalalala.jpg');" onclick="abrirModal('https://i.ibb.co/HfWBKLkd/lalalalala.jpg', 'Host: Lala')">
+                        <div class="card-header">Order of the Phoenix</div>
+                        <div class="photo-and-graphic">
+                            <img class="member-photo-circle" src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Logo Order of the Phoenix">
+                        </div>
+                        <div class="member-info">
+                            <div class="role-title">Host</div>
+                            <p><strong>Nombre:</strong> Souad</p>
+                            <p><strong>Nick:</strong> Lala</p>
+                            <p><strong>País:</strong> España</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/LhCFL0X4/max.jpg');" onclick="abrirModal('https://i.ibb.co/LhCFL0X4/max.jpg', 'Host: Max')">
+                        <div class="card-header">Order of the Phoenix</div>
+                        <div class="photo-and-graphic">
+                            <img class="member-photo-circle" src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Logo Order of the Phoenix">
+                        </div>
+                        <div class="member-info">
+                            <div class="role-title">Host</div>
+                            <p><strong>Nombre:</strong> Max</p>
+                            <p><strong>Nick:</strong> Max</p>
+                            <p><strong>País:</strong> Venezuela</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-box admin-card" style="background-image: url('https://i.ibb.co/mCVJx5ny/kold.jpg');" onclick="abrirModal('https://i.ibb.co/mCVJx5ny/kold.jpg', 'Host: Kold')">
+                        <div class="card-header">Order of the Phoenix</div>
+                        <div class="photo-and-graphic">
+                            <img class="member-photo-circle" src="https://i.ibb.co/nWT5mTy/phoenix.jpg" alt="Logo Order of the Phoenix">
+                        </div>
+                        <div class="member-info">
+                            <div class="role-title">Host</div>
+                            <p><strong>Nombre:</strong> Alessander</p>
+                            <p><strong>Nick:</strong> Kold</p>
+                            <p><strong>País:</strong> Peru</p>
+                        </div>
+                    </div>
+                </div> 
+                
+                <div class="carousel-dots" id="adminDots"></div>
+
+            </div>
+        </section>
+
+        <section id="reglas" class="content-section">
+            <h2 class="section-title fade-in">Reglas del Clan</h2>
+            <p class="section-text fade-in" style="background: transparent; border: none; box-shadow: none; padding: 0; margin-bottom: 2rem;">Para mantener el orden en la nave, todos los tripulantes deben conocer y respetar nuestro código de convivencia.</p>
+            <div class="glass-box rules-image-box fade-in" onclick="abrirModal('https://i.ibb.co/Nn7tv6dw/reglas.jpg','Reglas del Clan')">
+                <img src="https://i.ibb.co/Nn7tv6dw/reglas.jpg" alt="Reglas del Clan Order of the Phoenix" border="0" width="100%" height="100%">
+            </div>
+        </section>
+
+        <section id="contacto" class="content-section">
+            <h2 class="section-title fade-in">Únete al Clan</h2>
+            <p class="section-text fade-in">No dejes que tu historia en Among Us sea solitaria. Únete a una familia que celebra tus victorias, festeja tu cumpleaños y premia tu ingenio cada semana. En Order of the Phoenix, la sana convivencia es nuestro motor y tú podrías ser nuestro próximo 'Impostor de la Semana'. Si tienes 16 años o más, nuestras puertas están abiertas. Síguenos en Instagram y TikTok para ver de qué somos capaces y mándanos un mensaje para reclamar tu lugar en la Orden.</p>
+            <div class="contact-btn fade-in">
+                <a href="https://www.instagram.com/orderofthephoenix_clan?utm_source=qr&igsh=MWc5ZXZkdTAybWVndg==" class="btn">
+                    <i class="fa-brands fa-instagram"></i> Instagram
+                </a> 
+                <a href="https://www.tiktok.com/@pgmail.com34?_r=1&_t=ZS-95PauMKumEm" class="btn">
+                    <i class="fa-brands fa-tiktok"></i> Tik Tok
+                </a>
+            </div>
+        </section>
+
+        <div id="miModalGaleria" class="modal">
+            <span class="close-modal" onclick="cerrarModal()">&times;</span>
+            <div class="modal-content-wrapper">
+                <img class="modal-img" id="imagenEnModal" src="">
+                <div class="modal-caption" id="textoEnModal"></div>
+            </div>
+        </div>
+
+        <footer style="padding: 20px; text-align: center; background: var(--bg-dark); color: rgba(255,255,255,0.5); font-size: 0.8rem; border-top: 1px solid rgba(255,87,34,0.2);">
+            <p>&copy; 2025 Order of the Phoenix. Todos los derechos reservados.</p>
+            <p style="margin-top: 5px; font-style: italic;">Surgidos de las cenizas.</p>
+        </footer>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
