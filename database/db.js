@@ -26,13 +26,35 @@ function initDB() {
       updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       updated_by INTEGER REFERENCES users(id)
     );
+
+    CREATE TABLE IF NOT EXISTS founders (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      nickname TEXT NOT NULL,
+      country TEXT DEFAULT '',
+      role TEXT DEFAULT 'Fundador',
+      photo_url TEXT DEFAULT '',
+      cover_url TEXT DEFAULT '',
+      sort_order INTEGER DEFAULT 0
+    );
+
+    CREATE TABLE IF NOT EXISTS admins (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      nickname TEXT NOT NULL,
+      country TEXT DEFAULT '',
+      role TEXT DEFAULT 'Administrador',
+      photo_url TEXT DEFAULT '',
+      cover_url TEXT DEFAULT '',
+      sort_order INTEGER DEFAULT 0
+    );
   `);
 
   const adminUser = db.prepare('SELECT id FROM users WHERE username = ?').get(process.env.ADMIN_USER);
   if (!adminUser) {
     const hash = bcrypt.hashSync(process.env.ADMIN_PASS, 10);
     db.prepare('INSERT INTO users (username, password, role) VALUES (?, ?, ?)').run(process.env.ADMIN_USER, hash, 'admin');
-    console.log('Admin user created');
+    console.log('Usuario admin creado');
   }
 
   const sections = ['hero', 'about', 'dynamics', 'rules'];
@@ -41,6 +63,34 @@ function initDB() {
   insertSection.run('about', '¿Quiénes somos?', 'Más que un clan, somos una hermandad forjada en el respeto y la sana convivencia.');
   insertSection.run('dynamics', 'Nuestras Dinámicas', 'Jueves: dinámicas únicas. Domingos: caos total. Cumpleaños: celebración familiar.');
   insertSection.run('rules', 'Reglas del Clan', 'Código de convivencia para mantener el orden en la nave.');
+
+  const founderCount = db.prepare('SELECT COUNT(*) as count FROM founders').get().count;
+  if (founderCount === 0) {
+    const insert = db.prepare('INSERT INTO founders (name, nickname, country, role, photo_url, cover_url, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?)');
+    insert.run('Anel Brillet', 'Kira', 'Mexico', 'Fundadora', 'https://i.ibb.co/Y7xGf6tB/kira.png', 'https://i.ibb.co/S7VVJQb6/Screenshot-2025-06-30-22-32-45-193-com-whatsapp.jpg', 1);
+    insert.run('Lizzeth', 'Lizz', 'Honduras', 'Fundadora', 'https://i.ibb.co/C3KzxsDm/lizz.png', 'https://i.ibb.co/tMRdWJY3/Screenshot-2025-06-30-22-33-41-912-com-whatsapp.jpg', 2);
+    insert.run('Cristian', 'Ares', 'Mexico', 'Fundador', 'https://i.ibb.co/cXX2QFKW/ares.png', 'https://i.ibb.co/hFcxdPG0/Screenshot-2025-06-30-22-34-20-530-com-whatsapp.jpg', 3);
+    insert.run('Trini', 'Oisu', 'Mexico', 'Fundadora', 'https://i.ibb.co/dJrvxvkv/oisu.png', 'https://i.ibb.co/GvGDmk6n/Screenshot-2025-06-30-22-40-11-227-com-whatsapp.jpg', 4);
+    insert.run('Alo', 'Loww', 'Mexico', 'Fundadora', 'https://i.ibb.co/KjkfWjfx/lowww.png', 'https://i.ibb.co/Qvnr3HsN/Screenshot-2025-06-30-22-25-41-653-com-whatsapp.jpg', 5);
+    insert.run('Diana Laura', 'LauYee', 'Mexico', 'Fundadora', 'https://i.ibb.co/vxJVK88H/lau.png', 'https://i.ibb.co/JFs1LySL/Screenshot-2025-06-30-22-33-18-891-com-whatsapp.jpg', 6);
+    insert.run('Rubi', 'Anakin', 'Mexico', 'Fundadora', 'https://i.ibb.co/b5wMkhB2/Rubi.png', 'https://i.ibb.co/wFpby2vV/Screenshot-2025-06-30-22-50-16-199-com-whatsapp.jpg', 7);
+    console.log('Fundadores sembrados');
+  }
+
+  const adminCount = db.prepare('SELECT COUNT(*) as count FROM admins').get().count;
+  if (adminCount === 0) {
+    const insert = db.prepare('INSERT INTO admins (name, nickname, country, role, photo_url, cover_url, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?)');
+    insert.run('Trini', 'Oisu', 'Mexico', 'Administradora', 'https://i.ibb.co/nWT5mTy/phoenix.jpg', 'https://i.ibb.co/B5jSqPDb/oisu.jpg', 1);
+    insert.run('Cristian', 'Ares', 'Mexico', 'Administrador', 'https://i.ibb.co/nWT5mTy/phoenix.jpg', 'https://i.ibb.co/LBCbmVz/ares.jpg', 2);
+    insert.run('Anel Brillet', 'Kira', 'Mexico', 'Administradora', 'https://i.ibb.co/nWT5mTy/phoenix.jpg', 'https://i.ibb.co/ZRJ9xQVB/kira.jpg', 3);
+    insert.run('Eduardo', 'Jasper', 'Ecuador', 'Administrador', 'https://i.ibb.co/nWT5mTy/phoenix.jpg', 'https://i.ibb.co/Ps8NTCq4/elarqui.jpg', 4);
+    insert.run('Roxel', 'Roxy', 'Colombia', 'Administradora', 'https://i.ibb.co/nWT5mTy/phoenix.jpg', 'https://i.ibb.co/cSLfbzDh/roxyyy.jpg', 5);
+    insert.run('Lizzeth', 'Lizz', 'Honduras', 'Administradora', 'https://i.ibb.co/nWT5mTy/phoenix.jpg', 'https://i.ibb.co/3YVyc8X8/lizzz.jpg', 6);
+    insert.run('Souad', 'Lala', 'España', 'Host', 'https://i.ibb.co/nWT5mTy/phoenix.jpg', 'https://i.ibb.co/HfWBKLkd/lalalalala.jpg', 7);
+    insert.run('Max', 'Max', 'Venezuela', 'Host', 'https://i.ibb.co/nWT5mTy/phoenix.jpg', 'https://i.ibb.co/LhCFL0X4/max.jpg', 8);
+    insert.run('Alessander', 'Kold', 'Peru', 'Host', 'https://i.ibb.co/nWT5mTy/phoenix.jpg', 'https://i.ibb.co/mCVJx5ny/kold.jpg', 9);
+    console.log('Admins sembrados');
+  }
 }
 
 initDB();

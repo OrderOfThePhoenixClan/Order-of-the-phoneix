@@ -132,57 +132,6 @@ function createIntroParticles() {
 
 // --- CARRUSEL ---
 const adminTrack = document.getElementById('adminTrack');
-const adminCards = document.querySelectorAll('.admin-card');
-const dotsContainer = document.getElementById('adminDots');
-const prevBtn = document.querySelector('.prev-btn');
-const nextBtn = document.querySelector('.next-btn');
-
-adminCards.forEach((_, index) => {
-    const dot = document.createElement('div');
-    dot.classList.add('dot');
-    if (index === 0) dot.classList.add('active');
-    dot.addEventListener('click', () => scrollToIndex(index));
-    dotsContainer.appendChild(dot);
-});
-
-const dots = document.querySelectorAll('.dot');
-
-function getCardWidth() {
-    return adminCards[0].offsetWidth + (parseFloat(getComputedStyle(adminTrack).gap) || 0);
-}
-
-function scrollToIndex(index) {
-    adminTrack.scrollTo({ left: index * getCardWidth(), behavior: 'smooth' });
-}
-
-function scrollNext() {
-    const maxScroll = adminTrack.scrollWidth - adminTrack.clientWidth;
-    if (adminTrack.scrollLeft >= maxScroll - 10) {
-        adminTrack.scrollTo({ left: 0, behavior: 'smooth' });
-    } else {
-        adminTrack.scrollBy({ left: getCardWidth(), behavior: 'smooth' });
-    }
-}
-
-function scrollPrev() {
-    if (adminTrack.scrollLeft <= 10) {
-        const maxScroll = adminTrack.scrollWidth - adminTrack.clientWidth;
-        adminTrack.scrollTo({ left: maxScroll, behavior: 'smooth' });
-    } else {
-        adminTrack.scrollBy({ left: -getCardWidth(), behavior: 'smooth' });
-    }
-}
-
-nextBtn.addEventListener('click', scrollNext);
-prevBtn.addEventListener('click', scrollPrev);
-
-adminTrack.addEventListener('scroll', () => {
-    const scrollPosition = adminTrack.scrollLeft;
-    const totalCardWidth = getCardWidth();
-    let currentIndex = Math.round(scrollPosition / totalCardWidth);
-    dots.forEach(dot => dot.classList.remove('active'));
-    if (dots[currentIndex]) dots[currentIndex].classList.add('active');
-});
 
 // --- MODAL ---
 const modal = document.getElementById("miModalGaleria");
@@ -272,6 +221,131 @@ function initPageEffects() {
             clickSound.currentTime = 0;
             clickSound.play();
         });
+    });
+
+    // Cargar miembros desde la API
+    loadFounders();
+    loadAdmins();
+}
+
+async function loadFounders() {
+    try {
+        const res = await fetch('/api/founders');
+        const founders = await res.json();
+        const track = document.getElementById('foundersTrack');
+        if (!track || founders.length === 0) return;
+        track.innerHTML = '';
+        founders.forEach((f, i) => {
+            const card = document.createElement('div');
+            card.className = 'glass-box founder-card';
+            card.style.backgroundImage = `url('${f.cover_url}')`;
+            if (i === 0 || i === founders.length) {
+                card.onclick = () => abrirModal(f.cover_url, `${f.role}: ${f.nickname}`);
+            } else {
+                card.onclick = () => abrirModal(f.cover_url, `${f.role}: ${f.nickname}`);
+            }
+            card.innerHTML = `
+                <div class="card-header">Order of the Phoenix</div>
+                <div class="photo-and-graphic">
+                    <img class="member-photo-circle" src="${f.photo_url}" alt="${f.role}: ${f.nickname}">
+                </div>
+                <div class="member-info">
+                    <div class="role-title">${f.role}</div>
+                    <p><strong>Nombre:</strong> ${f.name}</p>
+                    <p><strong>Nick:</strong> ${f.nickname}</p>
+                    <p><strong>País:</strong> ${f.country}</p>
+                </div>
+            `;
+            track.appendChild(card);
+        });
+        // Clonar el primero para el loop infinito del carrusel
+        const firstClone = track.firstElementChild.cloneNode(true);
+        firstClone.setAttribute('aria-hidden', 'true');
+        track.appendChild(firstClone);
+    } catch (e) {
+        console.log('Error cargando fundadores');
+    }
+}
+
+async function loadAdmins() {
+    try {
+        const res = await fetch('/api/admins');
+        const admins = await res.json();
+        const track = document.getElementById('adminTrack');
+        const dotsContainer = document.getElementById('adminDots');
+        if (!track || admins.length === 0) return;
+        track.innerHTML = '';
+        dotsContainer.innerHTML = '';
+        admins.forEach((a, index) => {
+            const card = document.createElement('div');
+            card.className = 'glass-box admin-card';
+            card.style.backgroundImage = `url('${a.cover_url}')`;
+            card.onclick = () => abrirModal(a.cover_url, `${a.role}: ${a.nickname}`);
+            card.innerHTML = `
+                <div class="card-header">Order of the Phoenix</div>
+                <div class="photo-and-graphic">
+                    <img class="member-photo-circle" src="${a.photo_url}" alt="Logo Order of the Phoenix">
+                </div>
+                <div class="member-info">
+                    <div class="role-title">${a.role}</div>
+                    <p><strong>Nombre:</strong> ${a.name}</p>
+                    <p><strong>Nick:</strong> ${a.nickname}</p>
+                    <p><strong>País:</strong> ${a.country}</p>
+                </div>
+            `;
+            track.appendChild(card);
+
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (index === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => scrollToIndex(index));
+            dotsContainer.appendChild(dot);
+        });
+        initAdminCarousel();
+    } catch (e) {
+        console.log('Error cargando administradores');
+    }
+}
+
+function initAdminCarousel() {
+    const adminCards = document.querySelectorAll('.admin-card');
+    const dots = document.querySelectorAll('.dot');
+
+    function getCardWidth() {
+        return adminCards[0]?.offsetWidth + (parseFloat(getComputedStyle(adminTrack).gap) || 0) || 0;
+    }
+
+    function scrollToIndex(index) {
+        adminTrack.scrollTo({ left: index * getCardWidth(), behavior: 'smooth' });
+    }
+
+    function scrollNext() {
+        const maxScroll = adminTrack.scrollWidth - adminTrack.clientWidth;
+        if (adminTrack.scrollLeft >= maxScroll - 10) {
+            adminTrack.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+            adminTrack.scrollBy({ left: getCardWidth(), behavior: 'smooth' });
+        }
+    }
+
+    function scrollPrev() {
+        if (adminTrack.scrollLeft <= 10) {
+            const maxScroll = adminTrack.scrollWidth - adminTrack.clientWidth;
+            adminTrack.scrollTo({ left: maxScroll, behavior: 'smooth' });
+        } else {
+            adminTrack.scrollBy({ left: -getCardWidth(), behavior: 'smooth' });
+        }
+    }
+
+    document.querySelector('.next-btn')?.addEventListener('click', scrollNext);
+    document.querySelector('.prev-btn')?.addEventListener('click', scrollPrev);
+
+    adminTrack.addEventListener('scroll', () => {
+        const scrollPosition = adminTrack.scrollLeft;
+        const totalCardWidth = getCardWidth();
+        let currentIndex = Math.round(scrollPosition / totalCardWidth);
+        dots.forEach(dot => dot.classList.remove('active'));
+        if (dots[currentIndex]) dots[currentIndex].classList.add('active');
     });
 }
 

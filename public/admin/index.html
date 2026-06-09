@@ -32,11 +32,16 @@
       <main>
         <aside>
           <nav>
-            <ul id="sectionList"></ul>
+            <ul id="navTabs">
+              <li class="active" data-tab="content">Secciones</li>
+              <li data-tab="founders">Fundadores</li>
+              <li data-tab="admins">Administradores</li>
+            </ul>
           </nav>
         </aside>
-        <section id="editor">
+        <section id="editor" class="tab-content active">
           <h3 id="editorTitle">Selecciona una sección</h3>
+          <ul id="sectionList" class="section-list"></ul>
           <form id="editorForm" style="display:none">
             <label>Título</label>
             <input type="text" id="editTitle">
@@ -48,9 +53,61 @@
             <button type="submit">Guardar cambios</button>
           </form>
         </section>
+
+        <section id="foundersView" class="tab-content">
+          <div class="tab-header">
+            <h3>Fundadores</h3>
+            <button class="btn-add" onclick="showMemberForm('founders')">+ Agregar</button>
+          </div>
+          <table id="foundersTable">
+            <thead><tr><th>Orden</th><th>Foto</th><th>Nombre</th><th>Nick</th><th>País</th><th>Rol</th><th>Acciones</th></tr></thead>
+            <tbody></tbody>
+          </table>
+          <div id="foundersEmpty" class="empty-msg">No hay fundadores</div>
+        </section>
+
+        <section id="adminsView" class="tab-content">
+          <div class="tab-header">
+            <h3>Administradores</h3>
+            <button class="btn-add" onclick="showMemberForm('admins')">+ Agregar</button>
+          </div>
+          <table id="adminsTable">
+            <thead><tr><th>Orden</th><th>Foto</th><th>Nombre</th><th>Nick</th><th>País</th><th>Rol</th><th>Acciones</th></tr></thead>
+            <tbody></tbody>
+          </table>
+          <div id="adminsEmpty" class="empty-msg">No hay administradores</div>
+        </section>
       </main>
     </div>
   </div>
+
+  <div id="memberModal" class="modal-overlay" style="display:none">
+    <div class="modal-box">
+      <h3 id="modalTitle">Agregar miembro</h3>
+      <form id="memberForm">
+        <input type="hidden" id="memberId">
+        <input type="hidden" id="memberType">
+        <label>Nombre completo</label>
+        <input type="text" id="mName" required>
+        <label>Nickname</label>
+        <input type="text" id="mNickname" required>
+        <label>País</label>
+        <input type="text" id="mCountry">
+        <label>Rol</label>
+        <input type="text" id="mRole" placeholder="Ej: Fundadora, Administrador, Host">
+        <label>URL foto de perfil</label>
+        <input type="text" id="mPhoto">
+        <label>URL foto de portada</label>
+        <input type="text" id="mCover">
+        <p id="memberMsg" class="msg"></p>
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" onclick="closeMemberForm()">Cancelar</button>
+          <button type="submit">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script src="admin.js"></script>
 </body>
 </html>
