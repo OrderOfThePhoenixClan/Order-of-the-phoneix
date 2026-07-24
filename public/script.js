@@ -324,14 +324,16 @@ function loadGallery() {
     ];
     grid.innerHTML = '';
     items.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'glass-box gallery-item fade-in';
-        div.onclick = () => abrirModal(item.image_url, item.title);
+        const a = document.createElement('a');
+        a.href = '#';
+        a.className = 'gallery-item';
+        a.onclick = (e) => { e.preventDefault(); abrirModal(item.image_url, item.title); };
         const img = document.createElement('img');
         img.src = item.image_url;
         img.alt = item.title || 'Galería';
-        div.appendChild(img);
-        grid.appendChild(div);
+        img.loading = 'lazy';
+        a.appendChild(img);
+        grid.appendChild(a);
     });
 }
 
