@@ -223,111 +223,116 @@ function initPageEffects() {
         });
     });
 
-    // Cargar miembros desde la API
+    // Cargar miembros y galería
     loadFounders();
     loadAdmins();
     loadGallery();
 }
 
-async function loadFounders() {
-    try {
-        const res = await fetch('/api/founders');
-        const founders = await res.json();
-        const track = document.getElementById('foundersTrack');
-        if (!track || founders.length === 0) return;
-        track.innerHTML = '';
-        founders.forEach((f, i) => {
-            const card = document.createElement('div');
-            card.className = 'glass-box founder-card';
-            card.style.backgroundImage = `url('${f.cover_url}')`;
-            if (i === 0 || i === founders.length) {
-                card.onclick = () => abrirModal(f.cover_url, `${f.role}: ${f.nickname}`);
-            } else {
-                card.onclick = () => abrirModal(f.cover_url, `${f.role}: ${f.nickname}`);
-            }
-            card.innerHTML = `
-                <div class="card-header">Order of the Phoenix</div>
-                <div class="photo-and-graphic">
-                    <img class="member-photo-circle" src="${f.photo_url}" alt="${f.role}: ${f.nickname}">
-                </div>
-                <div class="member-info">
-                    <div class="role-title">${f.role}</div>
-                    <p><strong>Nombre:</strong> ${f.name}</p>
-                    <p><strong>Nick:</strong> ${f.nickname}</p>
-                    <p><strong>País:</strong> ${f.country}</p>
-                </div>
-            `;
-            track.appendChild(card);
-        });
-        // Clonar el primero para el loop infinito del carrusel
-        const firstClone = track.firstElementChild.cloneNode(true);
-        firstClone.setAttribute('aria-hidden', 'true');
-        track.appendChild(firstClone);
-    } catch (e) {
-        console.log('Error cargando fundadores');
-    }
+function loadFounders() {
+    const track = document.getElementById('foundersTrack');
+    if (!track) return;
+    const founders = [
+        { name: 'Anel Brillet', nickname: 'Kira', country: 'Mexico', role: 'Fundadora', photo_url: 'https://i.ibb.co/Y7xGf6tB/kira.png', cover_url: 'https://i.ibb.co/S7VVJQb6/Screenshot-2025-06-30-22-32-45-193-com-whatsapp.jpg' },
+        { name: 'Lizzeth', nickname: 'Lizz', country: 'Honduras', role: 'Fundadora', photo_url: 'https://i.ibb.co/C3KzxsDm/lizz.png', cover_url: 'https://i.ibb.co/tMRdWJY3/Screenshot-2025-06-30-22-33-41-912-com-whatsapp.jpg' },
+        { name: 'Cristian', nickname: 'Ares', country: 'Mexico', role: 'Fundador', photo_url: 'https://i.ibb.co/cXX2QFKW/ares.png', cover_url: 'https://i.ibb.co/hFcxdPG0/Screenshot-2025-06-30-22-34-20-530-com-whatsapp.jpg' },
+        { name: 'Trini', nickname: 'Oisu', country: 'Mexico', role: 'Fundadora', photo_url: 'https://i.ibb.co/dJrvxvkv/oisu.png', cover_url: 'https://i.ibb.co/GvGDmk6n/Screenshot-2025-06-30-22-40-11-227-com-whatsapp.jpg' },
+        { name: 'Alo', nickname: 'Loww', country: 'Mexico', role: 'Fundadora', photo_url: 'https://i.ibb.co/KjkfWjfx/lowww.png', cover_url: 'https://i.ibb.co/Qvnr3HsN/Screenshot-2025-06-30-22-25-41-653-com-whatsapp.jpg' },
+        { name: 'Diana Laura', nickname: 'LauYee', country: 'Mexico', role: 'Fundadora', photo_url: 'https://i.ibb.co/vxJVK88H/lau.png', cover_url: 'https://i.ibb.co/JFs1LySL/Screenshot-2025-06-30-22-33-18-891-com-whatsapp.jpg' },
+        { name: 'Rubi', nickname: 'Anakin', country: 'Mexico', role: 'Fundadora', photo_url: 'https://i.ibb.co/b5wMkhB2/Rubi.png', cover_url: 'https://i.ibb.co/wFpby2vV/Screenshot-2025-06-30-22-50-16-199-com-whatsapp.jpg' }
+    ];
+    track.innerHTML = '';
+    founders.forEach((f, i) => {
+        const card = document.createElement('div');
+        card.className = 'glass-box founder-card';
+        card.style.backgroundImage = `url('${f.cover_url}')`;
+        card.onclick = () => abrirModal(f.cover_url, `${f.role}: ${f.nickname}`);
+        card.innerHTML = `
+            <div class="card-header">Order of the Phoenix</div>
+            <div class="photo-and-graphic">
+                <img class="member-photo-circle" src="${f.photo_url}" alt="${f.role}: ${f.nickname}">
+            </div>
+            <div class="member-info">
+                <div class="role-title">${f.role}</div>
+                <p><strong>Nombre:</strong> ${f.name}</p>
+                <p><strong>Nick:</strong> ${f.nickname}</p>
+                <p><strong>País:</strong> ${f.country}</p>
+            </div>
+        `;
+        track.appendChild(card);
+    });
+    const firstClone = track.firstElementChild.cloneNode(true);
+    firstClone.setAttribute('aria-hidden', 'true');
+    track.appendChild(firstClone);
 }
 
-async function loadAdmins() {
-    try {
-        const res = await fetch('/api/admins');
-        const admins = await res.json();
-        const track = document.getElementById('adminTrack');
-        const dotsContainer = document.getElementById('adminDots');
-        if (!track || admins.length === 0) return;
-        track.innerHTML = '';
-        dotsContainer.innerHTML = '';
-        admins.forEach((a, index) => {
-            const card = document.createElement('div');
-            card.className = 'glass-box admin-card';
-            card.style.backgroundImage = `url('${a.cover_url}')`;
-            card.onclick = () => abrirModal(a.cover_url, `${a.role}: ${a.nickname}`);
-            card.innerHTML = `
-                <div class="card-header">Order of the Phoenix</div>
-                <div class="photo-and-graphic">
-                    <img class="member-photo-circle" src="${a.photo_url}" alt="Logo Order of the Phoenix">
-                </div>
-                <div class="member-info">
-                    <div class="role-title">${a.role}</div>
-                    <p><strong>Nombre:</strong> ${a.name}</p>
-                    <p><strong>Nick:</strong> ${a.nickname}</p>
-                    <p><strong>País:</strong> ${a.country}</p>
-                </div>
-            `;
-            track.appendChild(card);
+function loadAdmins() {
+    const track = document.getElementById('adminTrack');
+    const dotsContainer = document.getElementById('adminDots');
+    if (!track) return;
+    const admins = [
+        { name: 'Trini', nickname: 'Oisu', country: 'Mexico', role: 'Administradora', photo_url: 'https://i.ibb.co/nWT5mTy/phoenix.jpg', cover_url: 'https://i.ibb.co/B5jSqPDb/oisu.jpg' },
+        { name: 'Cristian', nickname: 'Ares', country: 'Mexico', role: 'Administrador', photo_url: 'https://i.ibb.co/nWT5mTy/phoenix.jpg', cover_url: 'https://i.ibb.co/LBCbmVz/ares.jpg' },
+        { name: 'Anel Brillet', nickname: 'Kira', country: 'Mexico', role: 'Administradora', photo_url: 'https://i.ibb.co/nWT5mTy/phoenix.jpg', cover_url: 'https://i.ibb.co/ZRJ9xQVB/kira.jpg' },
+        { name: 'Eduardo', nickname: 'Jasper', country: 'Ecuador', role: 'Administrador', photo_url: 'https://i.ibb.co/nWT5mTy/phoenix.jpg', cover_url: 'https://i.ibb.co/Ps8NTCq4/elarqui.jpg' },
+        { name: 'Roxel', nickname: 'Roxy', country: 'Colombia', role: 'Administradora', photo_url: 'https://i.ibb.co/nWT5mTy/phoenix.jpg', cover_url: 'https://i.ibb.co/cSLfbzDh/roxyyy.jpg' },
+        { name: 'Lizzeth', nickname: 'Lizz', country: 'Honduras', role: 'Administradora', photo_url: 'https://i.ibb.co/nWT5mTy/phoenix.jpg', cover_url: 'https://i.ibb.co/3YVyc8X8/lizzz.jpg' },
+        { name: 'Souad', nickname: 'Lala', country: 'España', role: 'Host', photo_url: 'https://i.ibb.co/nWT5mTy/phoenix.jpg', cover_url: 'https://i.ibb.co/HfWBKLkd/lalalalala.jpg' },
+        { name: 'Max', nickname: 'Max', country: 'Venezuela', role: 'Host', photo_url: 'https://i.ibb.co/nWT5mTy/phoenix.jpg', cover_url: 'https://i.ibb.co/LhCFL0X4/max.jpg' },
+        { name: 'Alessander', nickname: 'Kold', country: 'Peru', role: 'Host', photo_url: 'https://i.ibb.co/nWT5mTy/phoenix.jpg', cover_url: 'https://i.ibb.co/mCVJx5ny/kold.jpg' }
+    ];
+    track.innerHTML = '';
+    dotsContainer.innerHTML = '';
+    admins.forEach((a, index) => {
+        const card = document.createElement('div');
+        card.className = 'glass-box admin-card';
+        card.style.backgroundImage = `url('${a.cover_url}')`;
+        card.onclick = () => abrirModal(a.cover_url, `${a.role}: ${a.nickname}`);
+        card.innerHTML = `
+            <div class="card-header">Order of the Phoenix</div>
+            <div class="photo-and-graphic">
+                <img class="member-photo-circle" src="${a.photo_url}" alt="Logo Order of the Phoenix">
+            </div>
+            <div class="member-info">
+                <div class="role-title">${a.role}</div>
+                <p><strong>Nombre:</strong> ${a.name}</p>
+                <p><strong>Nick:</strong> ${a.nickname}</p>
+                <p><strong>País:</strong> ${a.country}</p>
+            </div>
+        `;
+        track.appendChild(card);
 
-            const dot = document.createElement('div');
-            dot.classList.add('dot');
-            if (index === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => scrollToIndex(index));
-            dotsContainer.appendChild(dot);
-        });
-        initAdminCarousel();
-    } catch (e) {
-        console.log('Error cargando administradores');
-    }
+        const dot = document.createElement('div');
+        dot.classList.add('dot');
+        if (index === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => scrollToIndex(index));
+        dotsContainer.appendChild(dot);
+    });
+    initAdminCarousel();
 }
 
-async function loadGallery() {
-    try {
-        const res = await fetch('/api/gallery');
-        const items = await res.json();
-        const grid = document.getElementById('galleryGrid');
-        if (!grid || items.length === 0) return;
-        grid.innerHTML = '';
-        items.forEach(item => {
-            const div = document.createElement('div');
-            div.className = 'glass-box gallery-item fade-in';
-            div.onclick = () => abrirModal(item.image_url, item.title);
-            const img = document.createElement('img');
-            img.src = item.image_url;
-            img.alt = item.title || 'Galería';
-            div.appendChild(img);
-            grid.appendChild(div);
-        });
-    } catch (e) {
-        console.log('Error cargando galería');
-    }
+function loadGallery() {
+    const grid = document.getElementById('galleryGrid');
+    if (!grid) return;
+    const items = [
+        { title: 'Dinámica Squid', image_url: 'https://i.ibb.co/VYb6LdwS/dinamica-squid.jpg' },
+        { title: 'Modo Squid Games', image_url: 'https://i.ibb.co/tMxK28FD/squid.jpg' },
+        { title: 'Modo Revolución', image_url: 'https://i.ibb.co/wZvkqMz0/Revolucion.jpg' },
+        { title: 'Explicación Revolución', image_url: 'https://i.ibb.co/60jqgw5B/explicacion-revo.jpg' },
+        { title: 'Cumpleaños Temáticos', image_url: 'https://i.ibb.co/RTwzwMX5/Cumplea-os.jpg' },
+        { title: 'Impostor de la Semana', image_url: 'https://i.ibb.co/rKBMpYTk/Impostor-de-la-semana.jpg' }
+    ];
+    grid.innerHTML = '';
+    items.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'glass-box gallery-item fade-in';
+        div.onclick = () => abrirModal(item.image_url, item.title);
+        const img = document.createElement('img');
+        img.src = item.image_url;
+        img.alt = item.title || 'Galería';
+        div.appendChild(img);
+        grid.appendChild(div);
+    });
 }
 
 function initAdminCarousel() {
